@@ -1,12 +1,12 @@
 # Skills
 # Organizational leadership
-- skill: Organizational leadership
-  description: I have several years of experience leading organziations from community groups to business departments. From public speaking, to mentoring, to coordination of people and events, I can lead in any context.
+- skill: Pandas in Python for Economics and Finance
+  url: https://datacenter.safefrankfurt.de/datacenter/documents/SAFE_webinars/02_Pandas/Pandas_in_Python_for_Economics_and_Finance.html
 
 # Communications strategy
-- skill: Communications strategy
-  description: Content and marketing strategy,
+- skill: Cryptocurrencies and Decentralised Finance
+  url: https://www.youtube.com/watch?v=io-7DDudtIY
 
 # Digital content development and creation
-- skill: Digital content development and creation
-  description: Copy writing, graphic design, web design, front-end web development, print design
+- skill: Webscraping
+  url: https://datacenter.safefrankfurt.de/datacenter/documents/SAFE_webinars/01_Webscraping/web-scraping_using_Python.html
