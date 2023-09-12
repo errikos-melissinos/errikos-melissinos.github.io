@@ -108,7 +108,10 @@
       <!-- end Education -->
       {% endif %}
 
-
+      <section class="sontent-Section">
+        <header class="section-header">
+          <h2>research</h2>
+                  </header>
       {% if site.resume_section_projects %}
       <!-- begin Working Papers -->
       <section class="content-section">
@@ -120,7 +123,8 @@
         <div class="resume-item" itemscope itemtype="http://schema.org/CreativeWork">
           <meta itemprop="creator" content="{{ site.resume_name }}" itemtype="http://schema.org/Person" />
           <h3 class="resume-item-title" itemprop="name">{% if project.url %}<a href="{{ project.url }}" itemprop="url">{{ project.project }}</a>{% else %}{{ project.project }}{% endif %}</h3>
-          <h4 class="resume-item-details" itemprop="description">{{ project.role }}  &bull; {{ project.duration }}</h4>
+<!--           <h4 class="resume-item-details" itemprop="description">{{ project.role }}  &bull; {{ project.duration }}</h4> -->
+          <h4 class="resume-item-details" itemprop="description">{{ project.role }} </h4>
           <p class="resume-item-copy">{{ project.description }}</p>
         </div>
         {% endfor %}
@@ -128,7 +132,7 @@
       </section>
       <!-- end Projects -->
       {% endif %}
-
+</section>
       {% if site.resume_section_skills%}
       <!-- begin Past Webinars -->
       <section class="content-section">
