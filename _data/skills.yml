@@ -1,21 +1,21 @@
 # Skills
 
-- skill: Presemester Course: Real Analysis
+- skill: "Presemester Course: Real Analysis"
   link: notes and exercises
   url: https://www.dropbox.com/sh/8ljoydztxxayrmd/AADMffPMP2BvZ7m7wvGjvf6ea?dl=0
 
-- skill: Webinar: Cryptocurrencies and Decentralised Finance
+- skill: "Webinar: Cryptocurrencies and Decentralised Finance"
   link: video
   url: https://www.youtube.com/watch?v=io-7DDudtIY
 
-- skill: Webinar: Pandas in Python for Economics and Finance
+- skill: "Webinar: Pandas in Python for Economics and Finance"
   link: video
   url: https://datacenter.safefrankfurt.de/datacenter/documents/SAFE_webinars/02_Pandas/Pandas_in_Python_for_Economics_and_Finance.html
 
-- skill: Webinar: Webscraping
+- skill: "Webinar: Webscraping"
   link: video
   url: https://datacenter.safefrankfurt.de/datacenter/documents/SAFE_webinars/01_Webscraping/web-scraping_using_Python.html
-
-  - skill: Seminar: Webscraping
+  
+- skill: "Seminar: Webscraping"
   link: presentation and code
   url: https://www.dropbox.com/sh/0qxw87h36lua0n8/AADm1CLZdSkUoVq1B4ZcE2HFa?dl=0
