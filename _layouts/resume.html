@@ -165,7 +165,7 @@
         </header>
         {% for skill in site.data.skills %}
         <div class="resume-item">
-          <span class="resume-item-title" style="Open Sans">{{ skill.skill }}</span>
+          <span class="resume-item-title" style="font-family:sans-serif;font-size:1.3rem">{{ skill.skill }}</span>
            <a class="resume-item-details" itemprop="name">{% if skill.url %}<a href="{{ skill.url }}" itemprop="url">{{ skill.link }}</a>{% else %}{{ skill.link }}{% endif %}</a>
           <p class="resume-item-copy">{{ skill.description }}</p>
         </div>
