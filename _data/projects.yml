@@ -1,8 +1,8 @@
 # Projects
 # uncomment the urls if you wish to display them, and add your own URL
 
-# The Challenge of Real Interest Rates to Consumption-Based Models
-- project: The Challenge of Real Interest Rates to Consumption-Based Models
+# Real Term Premia in Consumption-Based Models
+- project: Real Term Premia in Consumption-Based Models
   # url: https://www.dropbox.com/s/fz4hu42ir5dqhif/The%20Challenge%20of%20Real%20Interest%20Rates%20to%20Consumption-Based%20Models.pdf?dl=0
   url: https://www.dropbox.com/sh/34s9h40je9pff5r/AACRUgleldxkDaDC2eVtMNYsa?dl=0
   # description: I investigate the ability of consumption-based models to explain the positive time- varying term premia observed in the data. The long-run risk and rare disasters models typically fail by producing small and negative term premia. The habit model appears to be quite successful, but it generates heteroskedastic real interest rates, which are not supported by empirical evidence. Generally, my findings suggest that substantial and positive term premia require counter-cyclical real interest rates and a direct relationship between the stochastic discount factor and the state variable of the economy. My analysis considers models with both time-separable and recursive utility. For the latter, I present a perturbation solution method that facilitates the computation of the price of long-term bonds, while allowing for a wide range of values for the intertemporal elasticity of substitution parameter.
