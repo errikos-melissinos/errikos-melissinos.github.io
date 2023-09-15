@@ -14,7 +14,7 @@ resume_name:                    "Errikos Melissinos"
 resume_title:                   "PhD candidate at Goethe Unversity and Research Assistant at Leibniz Institute for Financial Research SAFE"
 
 # used for the contact button in _layouts/resume.html
-resume_contact_email:           "melissinos@safe-frankfurt.com"
+resume_contact_email:           "melissinos@safe-frankfurt.de"
 
 # the next two items are used for schema itemprops in _layouts/resume.html
 # resume_contact_telephone:       "555-7334"
