@@ -9,7 +9,7 @@
 
   h2 {
     // @include sans;
-    font-family: 'Minion Pro';
+    font-family: 'Minion Pro', Baskerville;
     font-weight: 900;
     font-size: 1.75rem;
     letter-spacing: -.05rem;
@@ -33,7 +33,7 @@
 
   .header-name {
     // @include sans;
-    font-family: 'Minion Pro';
+    font-family: 'Minion Pro', Baskerville;
     font-size: 3rem;
     font-weight: 900;
     text-align: center;
@@ -44,7 +44,7 @@
 
   .header-contact-info {
     // @include sans;
-    font-family: 'Minion Pro';
+    font-family: 'Minion Pro', Baskerville;
     text-align: center;
   }
   .header-contact-info p a {
@@ -59,7 +59,7 @@
 
     .header-title {
       // @include sans;
-      font-family: 'Minion Pro';
+      font-family: 'Minion Pro', Baskerville;
       font-weight: 300;
       font-size: 1.75rem;
       line-height: 2rem;
@@ -131,7 +131,7 @@
   width: 80px;
   font-size: 1.05rem;
   // @include sans_light;
-  font-family: 'Minion Pro Light';
+  font-family: 'Minion Pro Light', Baskerville;
   color: #333;
   line-height: 35px;
   @include transition(all .2s ease);
@@ -154,7 +154,7 @@
 
   .resume-item-title {
     // @include sans_bold;
-    font-family: 'Minion Pro Bold';
+    font-family: 'Minion Pro Bold', Baskerville;
     margin: 0 0 .75rem;
     font-size: 1.3rem;
     letter-spacing: -.05rem;
@@ -219,7 +219,7 @@
   .page-header { padding: 1rem 0 .2rem;
     .header-name {
       // @include sans_bold;
-      font-family: 'Minion Pro Bold';
+      font-family: 'Minion Pro Bold', Baskerville;
       font-size: 2rem;
       margin: 0 0 .2rem;
     }
