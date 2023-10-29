@@ -8,7 +8,8 @@
   margin-bottom: 1.5rem;
 
   h2 {
-    @include sans;
+    // @include sans;
+    @include minionpro;
     font-weight: 900;
     font-size: 1.75rem;
     letter-spacing: -.05rem;
