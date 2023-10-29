@@ -33,6 +33,7 @@
 
   .header-name {
     @include sans;
+    @include Minion Pro;
     font-size: 3rem;
     font-weight: 900;
     text-align: center;
@@ -42,7 +43,8 @@
   }
 
   .header-contact-info {
-    @include sans;
+    // @include sans;
+    @include Minion Pro;
     text-align: center;
   }
   .header-contact-info p a {
@@ -56,7 +58,8 @@
     @include clearfix;
 
     .header-title {
-      @include sans;
+      // @include sans;
+      @include Minion Pro;
       font-weight: 300;
       font-size: 1.75rem;
       line-height: 2rem;
