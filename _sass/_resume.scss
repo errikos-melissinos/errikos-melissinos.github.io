@@ -173,12 +173,14 @@
     }
   }
 
-  .resume-item-title,
-  .resume-item-details,
   .resume-item-copy{
     text-align: justify;
-    font-size: 1.225rem;
+    font-size: 1.175rem;
   }
+  
+  .resume-item-title,
+  .resume-item-details,
+  .resume-item-copy,
   .resume-item-list {
     a {
       color: #333;
