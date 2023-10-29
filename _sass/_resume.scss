@@ -3,6 +3,10 @@
 
 // util
 
+body, button, input, select, textarea {
+  font-family: 'Minion Pro', Baskerville, serif;
+}
+
 .section-header {
   @include section_border;
   margin-bottom: 1.5rem;
