@@ -167,7 +167,6 @@
     font-size: 1.125rem;
     margin: 0 0 .75rem;
     line-height: 1;
-    text-align: justify;
 
     &.award-title {
       font-size: 1rem;
@@ -176,7 +175,10 @@
 
   .resume-item-title,
   .resume-item-details,
-  .resume-item-copy,
+  .resume-item-copy{
+    text-align: justify;
+    font-size: 2.125rem;
+  }
   .resume-item-list {
     a {
       color: #333;
