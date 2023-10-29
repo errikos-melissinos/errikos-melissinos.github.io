@@ -4,7 +4,7 @@
 // util
 
 body, button, input, select, textarea {
-  font-family: 'Minion Pro', Baskerville, serif;
+  font-family: 'Minion Pro', serif;
 }
 
 .section-header {
@@ -13,7 +13,7 @@ body, button, input, select, textarea {
 
   h2 {
     // @include sans;
-    font-family: 'Minion Pro', Baskerville;
+    font-family: 'Minion Pro', serif;
     font-weight: 900;
     font-size: 1.75rem;
     letter-spacing: -.05rem;
@@ -37,7 +37,7 @@ body, button, input, select, textarea {
 
   .header-name {
     // @include sans;
-    font-family: 'Minion Pro', Baskerville;
+    font-family: 'Minion Pro', serif;
     font-size: 3rem;
     font-weight: 900;
     text-align: center;
@@ -48,7 +48,7 @@ body, button, input, select, textarea {
 
   .header-contact-info {
     // @include sans;
-    font-family: 'Minion Pro', Baskerville;
+    font-family: 'Minion Pro', serif;
     text-align: center;
   }
   .header-contact-info p a {
@@ -63,7 +63,7 @@ body, button, input, select, textarea {
 
     .header-title {
       // @include sans;
-      font-family: 'Minion Pro', Baskerville;
+      font-family: 'Minion Pro', serif;
       font-weight: 300;
       font-size: 1.75rem;
       line-height: 2rem;
@@ -135,7 +135,7 @@ body, button, input, select, textarea {
   width: 80px;
   font-size: 1.05rem;
   // @include sans_light;
-  font-family: 'Minion Pro Light', Baskerville;
+  font-family: 'Minion Pro Light', serif;
   color: #333;
   line-height: 35px;
   @include transition(all .2s ease);
@@ -158,7 +158,7 @@ body, button, input, select, textarea {
 
   .resume-item-title {
     // @include sans_bold;
-    font-family: 'Minion Pro Bold', Baskerville;
+    font-family: 'Minion Pro Bold', serif;
     margin: 0 0 .75rem;
     font-size: 1.3rem;
     letter-spacing: -.05rem;
@@ -223,7 +223,7 @@ body, button, input, select, textarea {
   .page-header { padding: 1rem 0 .2rem;
     .header-name {
       // @include sans_bold;
-      font-family: 'Minion Pro Bold', Baskerville;
+      font-family: 'Minion Pro Bold', serif;
       font-size: 2rem;
       margin: 0 0 .2rem;
     }
