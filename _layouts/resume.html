@@ -125,7 +125,7 @@
           <meta itemprop="creator" content="{{ site.resume_name }}" itemtype="http://schema.org/Person" />
           <h3 class="resume-item-title" itemprop="name">{% if project.url %}<a href="{{ project.url }}" itemprop="url">{{ project.project }}</a>{% else %}{{ project.project }}{% endif %}</h3>
 <!--           <h4 class="resume-item-details" itemprop="description">{{ project.role }}  &bull; {{ project.duration }}</h4> -->
-          <h4 class="resume-item-details" style="font-family:Minion Pro, Baskerville" itemprop="description">{{ project.role }} </h4>
+          <h4 class="resume-item-details" style="font-family:'Minion Pro', Baskerville" itemprop="description">{{ project.role }} </h4>
           <p class="resume-item-copy">{{ project.description }}</p>
         </div>
         {% endfor %}
@@ -165,7 +165,7 @@
         </header>
         {% for skill in site.data.skills %}
         <div class="resume-item">
-          <span class="resume-item-title" style="font-family:Minion Pro, Baskerville;font-size:1.3rem">{{ skill.skill }}</span>
+          <span class="resume-item-title" style="font-family:'Minion Pro', Baskerville;font-size:1.3rem">{{ skill.skill }}</span>
            <a class="resume-item-details" itemprop="name">{% if skill.url %}<a href="{{ skill.url }}" itemprop="url">{{ skill.link }}</a>{% else %}{{ skill.link }}{% endif %}</a>
           <p class="resume-item-copy">{{ skill.description }}</p>
         </div>
