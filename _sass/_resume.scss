@@ -9,7 +9,7 @@
 
   h2 {
     // @include sans;
-    @include Minion Pro;
+    font-family: 'Minion Pro';
     font-weight: 900;
     font-size: 1.75rem;
     letter-spacing: -.05rem;
@@ -33,7 +33,7 @@
 
   .header-name {
     // @include sans;
-    @include Minion Pro;
+    font-family: 'Minion Pro';
     font-size: 3rem;
     font-weight: 900;
     text-align: center;
@@ -44,7 +44,7 @@
 
   .header-contact-info {
     // @include sans;
-    @include Minion Pro;
+    font-family: 'Minion Pro';
     text-align: center;
   }
   .header-contact-info p a {
@@ -59,7 +59,7 @@
 
     .header-title {
       // @include sans;
-      @include Minion Pro;
+      font-family: 'Minion Pro';
       font-weight: 300;
       font-size: 1.75rem;
       line-height: 2rem;
