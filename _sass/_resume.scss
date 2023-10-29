@@ -76,7 +76,7 @@
   }
 
   .executive-summary {
-    @include media_larger_than_mobile { font-size: 1.125rem; }
+    @include media_larger_than_mobile { font-size: 1.175rem; }
   }
 }
 
@@ -132,7 +132,7 @@
   width: 80px;
   font-size: 1.05rem;
   // @include sans_light;
-  font-family: 'Minion Pro', Baskerville, serif;
+  font-family: Baskerville, serif;
   color: #333;
   line-height: 35px;
   @include transition(all .2s ease);
@@ -155,7 +155,7 @@
 
   .resume-item-title {
     // @include sans_bold;
-    font-family:Baskerville, serif;
+    font-family: Baskerville, serif;
     margin: 0 0 .75rem;
     font-size: 1.3rem;
     letter-spacing: -.05rem;
@@ -226,7 +226,7 @@
   .page-header { padding: 1rem 0 .2rem;
     .header-name {
       // @include sans_bold;
-      font-family: 'Minion Pro Bold', serif;
+      font-family: Baskerville, serif;
       font-size: 2rem;
       margin: 0 0 .2rem;
       font-style: bold;
