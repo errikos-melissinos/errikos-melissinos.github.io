@@ -29,7 +29,8 @@
 
         <!-- You can turn off the avatar in _config.yml by setting to false -->
         
-        <img src="images/avatar.jpg" alt="my photo" class="avatar no-print" itemprop="image">
+        <!-- <img src="images/avatar.jpg" alt="my photo" class="avatar no-print" itemprop="image"> -->
+        <img id="toggleImage" src="images/avatar2.jpg" alt="my photo" class="avatar no-print" itemprop="image">
         
 
         <!-- Your name is defined in the _config.yml file -->
@@ -253,4 +254,28 @@
 
   </body>
 
+  <!-- I would use this if I want to alternate pictures -->
+  <!-- <script>
+    var imgElement = document.getElementById("toggleImage");
+    var images = ["images/conference.jpg", "images/avatar.jpg"];
+    var currentIndex = 0;
+
+    function toggleImg() {
+        imgElement.classList.add("fade-out");
+
+        setTimeout(function() {
+            // Toggle image source
+            currentIndex = (currentIndex + 1) % images.length;
+            imgElement.src = images[currentIndex];
+
+            // Fade image back in
+            imgElement.classList.remove("fade-out");
+        }, 1000);  // Wait for the fade-out effect to finish before switching
+    }
+
+    // Call toggleImg every 10 seconds
+    setInterval(toggleImg, 10000);
+</script> -->
+  
+  
 </html>
