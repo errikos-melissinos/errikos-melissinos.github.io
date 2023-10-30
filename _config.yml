@@ -11,7 +11,7 @@ sass:
 # Resume settings
 resume_avatar:                  "true"
 resume_name:                    "Errikos Melissinos"
-resume_title:                   "PhD candidate at Goethe Unversity Frankfurt and Research Assistant at Leibniz Institute for Financial Research SAFE"
+resume_title:                   "PhD candidate at Goethe University Frankfurt and Research Assistant at Leibniz Institute for Financial Research SAFE"
 
 # used for the contact button in _layouts/resume.html
 resume_contact_email:           "melissinos@safe-frankfurt.de"
