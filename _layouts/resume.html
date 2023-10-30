@@ -117,7 +117,7 @@
 <!--       <section class="content-section"> -->
 <!--         <header class="section-header"> -->
         <header>
-          <h2 class="resume-item-title" style="font-size:1.5rem">Working Papers</h2>
+          <h2 class="subsection-header">Working Papers</h2>
         </header>
 
         {% for project in site.data.projects %}
@@ -139,7 +139,7 @@
 <!--       <section class="content-section"> -->
 <!--         <header class="section-header"> -->
         <header>
-          <h2 class="resume-item-title" style="font-size:1.5rem">Work in Progress</h2>
+          <h2 class="subsection-header">Work in Progress</h2>
         </header>
 
         {% for project in site.data.projects2 %}
@@ -165,9 +165,10 @@
         </header>
         {% for skill in site.data.skills %}
         <div class="resume-item">
-          <span class="resume-item-title" style="font-family:Baskerville, serif;font-size:1.3rem">{{ skill.skill }}</span>
-           <a class="resume-item-details" style="font-family:Baskerville, serif;font-size:1.3rem" itemprop="name">{% if skill.url %}<a href="{{ skill.url }}" itemprop="url">{{ skill.link }}</a>{% else %}{{ skill.link }}{% endif %}</a>
-          <p class="resume-item-copy" style="font-family:Baskerville, serif;font-size:1.3rem">{{ skill.description }}</p>
+          <span class="resume-item-details">{{ skill.type }}</span>
+          <span class="resume-item-details" style="font-weight:bold">{{ skill.skill }}</span>
+           <span class="resume-item-details" itemprop="name">{% if skill.url %}<a href="{{ skill.url }}" itemprop="url">{{ skill.link }}</a>{% else %}{{ skill.link }}{% endif %}</span>
+          <!-- <p class="resume-item-copy">{{ skill.description }}</p> -->
         </div>
         {% endfor %}
 

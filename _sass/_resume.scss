@@ -6,14 +6,16 @@
 
 .section-header {
   @include section_border;
-  margin-bottom: 1.5rem;
+  margin-bottom: 0.5rem;
 
   h2 {
     // @include sans;
-    font-family:Baskerville, serif;
+    font-family: Garamond, serif;
+
+
     font-weight: 600;
     font-size: 1.75rem;
-    letter-spacing: -.05rem;
+    // letter-spacing: -.05rem;
     margin: 0;
   }
 }
@@ -34,18 +36,21 @@
 
   .header-name {
     // @include sans;
-    font-family:Baskerville, serif;
+    font-family: Garamond, serif;
+
     font-size: 3rem;
-    font-weight: 600;
+    font-weight: 501;
     text-align: center;
-    letter-spacing: -.15rem;
+    // letter-spacing: -.15rem;
     line-height: 1;
     margin: 1rem 0 0;
   }
 
   .header-contact-info {
     // @include sans;
-    font-family:Baskerville, serif;
+    font-family: Garamond, serif;
+
+
     text-align: center;
   }
   .header-contact-info p a {
@@ -60,11 +65,13 @@
 
     .header-title {
       // @include sans;
-      font-family:Baskerville, serif;
+      font-family: Garamond, serif;
+
+
       font-weight: 300;
-      font-size: 1.75rem;
+      font-size: 1.55rem;
       line-height: 2rem;
-      letter-spacing: -.05rem;
+      // letter-spacing: -.05rem;
       // text-align: center;
       margin: 0.5rem 0 0.5rem;
 
@@ -132,12 +139,12 @@
   width: 80px;
   font-size: 1.05rem;
   // @include sans_light;
-  font-family: Baskerville, serif;
+  font-family: Garamond, serif;
   color: #333;
   line-height: 35px;
   @include transition(all .2s ease);
   margin-right: 10px;
-  margin-bottom: 0.5rem;
+  margin-bottom: -0.75rem;
 
   &:hover {
     background-color: #333;
@@ -150,25 +157,40 @@
 // resume content styles
 
 .content-section {
-  margin: 0 0 3rem;
+  margin: 0 0 2rem;
 
-  .resume-item { margin-bottom: 2rem; }
+  .resume-item { margin-bottom: 1rem; }
+
+  .subsection-header {
+    // @include sans_bold;
+    font-family: Garamond, serif;
+    @include subsection_border;
+    // text-decoration: underline;
+    // text-decoration-style: double;
+    margin: 0rem 0 .75rem;
+    font-size: 1.5rem;
+    // letter-spacing: -.05rem;
+    line-height: 1;
+    // font-style: bold;
+    color: #333;
+  }
+
 
   .resume-item-title {
     // @include sans_bold;
-    font-family: Baskerville, serif;
-    margin: 0 0 .75rem;
+    font-family: Garamond, serif;
+    margin: 0 0 .5rem;
     font-size: 1.3rem;
-    letter-spacing: -.05rem;
+    // letter-spacing: -.05rem;
     line-height: 1;
-    font-style: bold;
-    color: #000;
+    // font-style: bold;
   }
 
   .resume-item-details {
     font-size: 1.125rem;
     margin: 0 0 .75rem;
     line-height: 1;
+
 
     &.award-title {
       font-size: 1rem;
@@ -180,6 +202,7 @@
     font-size: 1.175rem;
   }
   
+  .subsection-header,
   .resume-item-title,
   .resume-item-details,
   .resume-item-copy,
@@ -228,7 +251,7 @@
   .page-header { padding: 1rem 0 .2rem;
     .header-name {
       // @include sans_bold;
-      font-family: Baskerville, serif;
+      font-family: Garamond, serif;
       font-size: 2rem;
       margin: 0 0 .2rem;
       font-style: bold;
