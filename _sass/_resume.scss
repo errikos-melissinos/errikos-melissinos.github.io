@@ -26,10 +26,10 @@
 
   .avatar {
     // width: 95px;
-    width: 425px;
+    width: 335px;
     max-width: 100%;
     overflow: hidden;
-    @include border-radius(80px);
+    @include border-radius(40px);
     margin: 0 auto;
     display: block;
   }
