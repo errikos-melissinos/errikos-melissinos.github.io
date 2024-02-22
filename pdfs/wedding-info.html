@@ -31,10 +31,18 @@
         display: flex;
     }
 
+    .styled-p {
+        margin-bottom: 140px;
+    }
+
     @media (max-width: 800px) {
         .flex-container {
             flex-direction: column;
         }
+        .styled-p {
+            margin-bottom: 30px;
+        }
+
     }
 </style>
 
@@ -106,14 +114,14 @@
 <div class="flex-container" style="display: flex; justify-content: space-between; text-align: center; margin: -50px 120px;">
     <div style="flex: 1; display: flex; justify-content: center; align-items: center; margin: 20px;">
         <div>
-        <p style="margin-bottom: 140px;">
+        <p class="styled-p" >
             Please answer the following form: <a href="https://forms.gle/NT8Pv54UjbMFqhHq7">RSVP</a>
         </p>
 
         <p>If you need further information you can contact us at: er.melissinos[at]gmail[dot]com</p>
     </div>
     </div>
-    <div style="flex: 2;margin: 20px;">
+    <div style="flex: 2; margin: 20px;">
         <!-- <div style="display: flex; justify-content: space-between; text-align: center;margin: auto 70px;">
             <div style="flex: 1; margin: 10px;">
                 <p>Location</p>
