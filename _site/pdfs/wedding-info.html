@@ -26,6 +26,18 @@
     }
 </style> -->
 
+<style>
+    .flex-container {
+        display: flex;
+    }
+
+    @media (max-width: 800px) {
+        .flex-container {
+            flex-direction: column;
+        }
+    }
+</style>
+
 <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300&display=swap" rel="stylesheet">
 <style>
     body {
@@ -73,7 +85,7 @@
 <div style="display: flex; justify-content: space-between; text-align: center;margin: auto 120px;">
     <div style="flex: 1; margin: 20px;">
         <h2>Welcome to our Wedding Website!</h2>
-        <p>Here you will find useful information about the event as the time approaches! For the time being you can let us know if your are planning to come.</p>
+        <p>Here you will find useful information about the event as the time approaches! For the time being you can let us know if you are planning to come.</p>
     </div>
     <div style="flex: 1; margin: 20px;">
         <h2>Καλώς ήρθατε στο σάιτ του γάμου μας!</h2>
@@ -91,7 +103,7 @@
 
 
 
-<div style="display: flex; justify-content: space-between; text-align: center; margin: -50px 120px;">
+<div class="flex-container" style="display: flex; justify-content: space-between; text-align: center; margin: -50px 120px;">
     <div style="flex: 1; display: flex; justify-content: center; align-items: center; margin: 20px;">
         <div>
         <p style="margin-bottom: 140px;">
