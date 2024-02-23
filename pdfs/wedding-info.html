@@ -66,25 +66,29 @@
    <!-- <div style="text-align: center; position: relative; width: 600px; height: 400px; margin: auto;"> -->
     <div style="position: relative; width: 710px; height: 1000px; margin: auto; overflow:hidden;">
         <img id="image1" src="../weddingFiles/english.png" style="position: absolute; transition: opacity 2s;width: 100%; height: 100%;">
-    <img id="image2" src="../weddingFiles/greek.png" style="position: absolute; transition: opacity 2s; opacity: 0;width: 100%; height: 100%;">
+    <img id="image2" src="../weddingFiles/greek.png" style="position: absolute; transition: opacity 1s; opacity: 0;width: 100%; height: 100%;">
 </div>
 
 <script>
     var images = ['../weddingFiles/english.png', '../weddingFiles/greek.png', '../weddingFiles/turkish.png'];
     var currentIndex = 0;
+    var currentIndex2 = 0;
     var imgElement1 = document.getElementById('image1');
     var imgElement2 = document.getElementById('image2');
 
     function changeImage() {
         var nextIndex = (currentIndex + 1) % images.length;
-        var nextImgElement = (currentIndex % 2 == 0) ? imgElement2 : imgElement1;
-        var currentImgElement = (currentIndex % 2 == 0) ? imgElement1 : imgElement2;
+        var nextIndex2 = (currentIndex2 + 1) % 2;
+        var nextImgElement = (currentIndex2 % 2 == 0) ? imgElement2 : imgElement1;
+        var currentImgElement = (currentIndex2 % 2 == 0) ? imgElement1 : imgElement2;
 
         nextImgElement.src = images[nextIndex];
         nextImgElement.style.opacity = '1';
         currentImgElement.style.opacity = '0';
 
         currentIndex = nextIndex;
+        currentIndex2 = nextIndex2;
+
     }
 
     setInterval(changeImage, 8000); // Change image every 3 seconds
@@ -97,7 +101,7 @@
     </div>
     <div style="flex: 1; margin: 20px;">
         <h2>Καλώς ήρθατε στο σάιτ του γάμου μας!</h2>
-        <p>Εδώ θα βρείτε χρήσιμες πληροφορίες όσο πλησιάζει η ημερομηνία! Προς το παρόν μπορείτε να μας ενημερώσετε αν προτίθεστε να παρευθρεθείτε. </p>
+        <p>Εδώ θα βρείτε χρήσιμες πληροφορίες όσο πλησιάζει η ημερομηνία! Προς το παρόν μπορείτε να μας ενημερώσετε αν προτίθεστε να παρευρεθείτε. </p>
     </div>
     <div style="flex: 1; margin: 20px;">
         <h2>Düğün Sitemize Hoş Geldiniz!</h2>
