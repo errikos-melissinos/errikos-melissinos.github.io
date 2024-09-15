@@ -11,10 +11,10 @@ sass:
 # Resume settings
 resume_avatar:                  "true"
 resume_name:                    "Errikos Melissinos"
-resume_title:                   "Welcome to my website! I am a PhD candidate at Goethe University Frankfurt and Research Assistant at Leibniz Institute for Financial Research SAFE. "
+resume_title:                   "Welcome to my website! I am starting in Fall 2024 as an assistant professor at Ozyegin University in Istanbul. "
 
 # used for the contact button in _layouts/resume.html
-resume_contact_email:           "melissinos@safe-frankfurt.de"
+resume_contact_email:           "er.melissinos@gmail.com"
 
 # the next two items are used for schema itemprops in _layouts/resume.html
 # resume_contact_telephone:       "555-7334"
@@ -52,7 +52,7 @@ resume_social_links:
   # resume_facebook_url:          "insert Facebook URL here"
   # resume_linkedin_url:          "https://www.linkedin.com/in/joelglovier"
   # resume_instagram_url:         "insert your Instagram URL here"
-  # resume_website_url:           "https://safe-frankfurt.de/research/researchers/researchers-details/showauthor/1109-melissinos.html"
+  # resume_website_url:           "https://www.ozyegin.edu.tr/en/faculty/errikosmelissinos"
   # resume_medium_url:            "https://medium.com/@jglovier"
 resume_print_social_links:      true
 
