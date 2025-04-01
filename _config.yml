@@ -14,7 +14,7 @@ resume_name:                    "Errikos Melissinos"
 resume_title:                   "Welcome to my website! I am starting in Fall 2024 as an assistant professor at Ozyegin University in Istanbul. "
 
 # used for the contact button in _layouts/resume.html
-resume_contact_email:           "er.melissinos@gmail.com"
+resume_contact_email:           "errikos.melissinos@ozyegin.edu.tr"
 
 # the next two items are used for schema itemprops in _layouts/resume.html
 # resume_contact_telephone:       "555-7334"
