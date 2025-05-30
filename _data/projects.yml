@@ -23,8 +23,8 @@
   url: /pdfs/Measuring_On-the-job_Learning_Rates_in_Multidimensional_Skills.pdf
   description: In this paper, we introduce a framework with multidimensional skills, in which we estimate how fast skills accumulate due to on-the-job experience. We model an individual’s wage as a weighted sum of her productivities in different skills. We call this skill-specific productivity expertise. Since expertise is not directly observable, we proxy this variable with skill-specific experience, which depends on the years of labor market experience across different occupations and the importance of the corresponding skill in those occupations. We compute skill-specific experience using the data on occupational skill requirements from O*NET. We then estimate the wage equation using skill-specific experience to evaluate the speed of expertise accumulation (learning rate) in different skills. We find that expertise in different skills grows with skill-specific experience and that different skills exhibit different learning rates.
 
-# Estimating Monetary Policy Rules
-- project: Estimating Monetary Policy Rules
-  # url: https://www.google.com/url?q=https%3A%2F%2Fwww.dropbox.com%2Fs%2F2ecm7tufxi9311a%2FBondar_Melissinos.pdf%3Fdl%3D0&sa=D&sntz=1&usg=AOvVaw3QxWNFiRpnKncGEu2-R5LZ
-  url: /pdfs/Estimating_Monetary_Policy_Rules.pdf
-  description: In this paper, I perform Bayesian estimations of the monetary policy rule parameters for various structural New Keynesian models. I find that the estimates depend on the model specification, and there are no robust estimates that are valid across a variety of models. In addition, my results are also consistent with the existence of a structural break in the conduct of monetary policy in the US at the 1980s.
+# # Estimating Monetary Policy Rules
+# - project: Estimating Monetary Policy Rules
+#   # url: https://www.google.com/url?q=https%3A%2F%2Fwww.dropbox.com%2Fs%2F2ecm7tufxi9311a%2FBondar_Melissinos.pdf%3Fdl%3D0&sa=D&sntz=1&usg=AOvVaw3QxWNFiRpnKncGEu2-R5LZ
+#   url: /pdfs/Estimating_Monetary_Policy_Rules.pdf
+#   description: In this paper, I perform Bayesian estimations of the monetary policy rule parameters for various structural New Keynesian models. I find that the estimates depend on the model specification, and there are no robust estimates that are valid across a variety of models. In addition, my results are also consistent with the existence of a structural break in the conduct of monetary policy in the US at the 1980s.
