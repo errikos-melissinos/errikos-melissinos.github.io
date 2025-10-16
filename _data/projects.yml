@@ -2,13 +2,13 @@
 # uncomment the urls if you wish to display them, and add your own URL
 
 # Real Term Premia in Consumption-Based Models
-- project: Real Term Premia Explained by Stochastic Volatility
+- project: The Intermediary Asset Pricing Approach to Puzzles in Macrofinance
   # url: https://www.dropbox.com/s/fz4hu42ir5dqhif/The%20Challenge%20of%20Real%20Interest%20Rates%20to%20Consumption-Based%20Models.pdf?dl=0
   # url: https://www.dropbox.com/sh/34s9h40je9pff5r/AACRUgleldxkDaDC2eVtMNYsa?dl=0
   # url: https://www.dropbox.com/scl/fi/soofvyqh1s7j6swb49c3s/Real-Term-Premia-in-Consumption-Based-Models.pdf?rlkey=wxv3lvv76e19hvwyqzwwm5dap&dl=0
-  url: /pdfs/Real_Term_Premia_in_Consumption-Based_Models.pdf
+  url: /pdfs/The_Intermediary_Asset_Pricing_Approach_to_Puzzles_in_Macrofinance.pdf
   # description: I investigate the ability of consumption-based models to explain the positive time- varying term premia observed in the data. The long-run risk and rare disasters models typically fail by producing small and negative term premia. The habit model appears to be quite successful, but it generates heteroskedastic real interest rates, which are not supported by empirical evidence. Generally, my findings suggest that substantial and positive term premia require counter-cyclical real interest rates and a direct relationship between the stochastic discount factor and the state variable of the economy. My analysis considers models with both time-separable and recursive utility. For the latter, I present a perturbation solution method that facilitates the computation of the price of long-term bonds, while allowing for a wide range of values for the intertemporal elasticity of substitution parameter.
-  description: Real term premia of risk-free bonds exhibit substantial variation over time. This paper shows that stochastic volatility can give rise to such behaviour, with the required amount of volatility in consumption or wealth being similar to the amount of volatility in the stock market. This explanation is consistent with both the intermediary asset pricing approach and with supply and demand driven explanations, in both of which a small group of investors play a special role in the pricing of securities. Furthermore, under standard preferences and without time-varying risk aversion such stochastic volatility is also necessary to explain real term premia. The paper analyses models with both time-separable and recursive preferences. The latter model variations are solved via a novel perturbation method with respect to the parameter for intertemporal elasticity of substitution.
+  description: This article introduces a model with high time-varying volatility in consumption. The model explains a series of puzzles in macrofinance, including the (i) equity premium puzzle, (ii) the risk-free rate puzzle, (iii) the bond premium puzzle, and (iv) the predictability of aggregate stock market returns with price-dividend ratios. Furthermore, it is argued that stochastic volatility of the kind introduced in this article is a necessary ingredient for explaining these puzzles within a broad class of models.
 
 # A Perturbation Solution Method for Models with Recursive Utility
 - project: A Perturbation Solution Method for Models with Recursive Utility
@@ -16,15 +16,23 @@
   url: /pdfs/A_Perturbation_Solution_Method_For_Models_with_Recursive_Utility.pdf
   description: I illustrate a novel method for pricing assets within recursive utility models in continuous time, that has first been used in Melissinos (2023). My method builds on the analytic solution of Tsai and Wachter (2018). While their solution is valid for a value of the intertemporal elasticity of substitution equal to 1, I provide the full perturbation series in terms of the IES, which gives rise to a global perturbation approximation in terms of the state variable. This allows the pricing of assets for a much larger range of values for the IES, which are economically meaningful. I comment on the convergence properties of the perturbation series, and I show that the method provides a straightforward and reliable approach to asset pricing. I employ my method to derive prices of long-term bonds, the price consumption ratio and the instantaneous return of the consumption perpetuity. 
   
-# Measuring On-the-job Learning Rates in Multidimensional Skills
-- project: Measuring On-the-job Learning Rates in Multidimensional Skills
-  role:  with Mariia Bondar
+# Julia Package
+- project: SDFPricing: A Julia Package for Asset Pricing Based on a Stochastic Discount Factor Process
+  #role:  with Mariia Bondar
   # url: https://www.google.com/url?q=https%3A%2F%2Fwww.dropbox.com%2Fs%2F2ecm7tufxi9311a%2FBondar_Melissinos.pdf%3Fdl%3D0&sa=D&sntz=1&usg=AOvVaw3QxWNFiRpnKncGEu2-R5LZ
-  url: /pdfs/Measuring_On-the-job_Learning_Rates_in_Multidimensional_Skills.pdf
-  description: In this paper, we introduce a framework with multidimensional skills, in which we estimate how fast skills accumulate due to on-the-job experience. We model an individual’s wage as a weighted sum of her productivities in different skills. We call this skill-specific productivity expertise. Since expertise is not directly observable, we proxy this variable with skill-specific experience, which depends on the years of labor market experience across different occupations and the importance of the corresponding skill in those occupations. We compute skill-specific experience using the data on occupational skill requirements from O*NET. We then estimate the wage equation using skill-specific experience to evaluate the speed of expertise accumulation (learning rate) in different skills. We find that expertise in different skills grows with skill-specific experience and that different skills exhibit different learning rates.
+  url: /pdfs/SDFPricing.pdf
+  description: I introduce a package in the Julia programming language to perform asset pricing based on a stochastic discount factor in continuous time. Prices are computed through Monte Carlo simulations according to a pricing partial differential equation and the corresponding Feynman-Kac formula. At this stage it is possible to compute a) prices of zero-coupon fixed income securities and b) price-dividend ratios, which also allow the calculation of prices and returns of these securities. The package is focused on ease of use and is meant to be used in research and teaching. I illustrate the functionality of the package with examples and an application. In particular, I show how asset prices react after shifts in economic variables within a consumption-based model, and I discuss to what extent these shifts can be classified as monetary policy shocks or information shocks in connection to monetary policy announcements.
 
 # # Estimating Monetary Policy Rules
 # - project: Estimating Monetary Policy Rules
 #   # url: https://www.google.com/url?q=https%3A%2F%2Fwww.dropbox.com%2Fs%2F2ecm7tufxi9311a%2FBondar_Melissinos.pdf%3Fdl%3D0&sa=D&sntz=1&usg=AOvVaw3QxWNFiRpnKncGEu2-R5LZ
 #   url: /pdfs/Estimating_Monetary_Policy_Rules.pdf
 #   description: In this paper, I perform Bayesian estimations of the monetary policy rule parameters for various structural New Keynesian models. I find that the estimates depend on the model specification, and there are no robust estimates that are valid across a variety of models. In addition, my results are also consistent with the existence of a structural break in the conduct of monetary policy in the US at the 1980s.
+
+
+# Measuring On-the-job Learning Rates in Multidimensional Skills
+- project: Measuring On-the-job Learning Rates in Multidimensional Skills
+  role:  with Mariia Bondar
+  # url: https://www.google.com/url?q=https%3A%2F%2Fwww.dropbox.com%2Fs%2F2ecm7tufxi9311a%2FBondar_Melissinos.pdf%3Fdl%3D0&sa=D&sntz=1&usg=AOvVaw3QxWNFiRpnKncGEu2-R5LZ
+  url: /pdfs/Measuring_On-the-job_Learning_Rates_in_Multidimensional_Skills.pdf
+  description: In this paper, we introduce a framework with multidimensional skills, in which we estimate how fast skills accumulate due to on-the-job experience. We model an individual’s wage as a weighted sum of her productivities in different skills. We call this skill-specific productivity expertise. Since expertise is not directly observable, we proxy this variable with skill-specific experience, which depends on the years of labor market experience across different occupations and the importance of the corresponding skill in those occupations. We compute skill-specific experience using the data on occupational skill requirements from O*NET. We then estimate the wage equation using skill-specific experience to evaluate the speed of expertise accumulation (learning rate) in different skills. We find that expertise in different skills grows with skill-specific experience and that different skills exhibit different learning rates.

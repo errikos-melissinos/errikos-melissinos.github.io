@@ -11,6 +11,5 @@
 # - project: "Jointly Explaining Stock Market Non-Participation and the Equity Premium"
 #   description: I am working on a heterogeneous agent model that shows the level of stock participation of individuals with different levels of risk aversion. I start by deriving the term structure of interests rates and the equity premium based on a consumption process with high levels of consumption volatility. I then derive the optimal investment and consumption levels of more risk-averse investors, including when there is a small friction in investing. I analyze the resulting stock market participation levels, the equity premium and the level of risk sharing provided by markets. 
 
-# Jointly explaining stock market non-participation and the equity premium
 - project: "A Monte Carlo Solution Method for Heterogeneous-agent Macro-finance Models"
   role:  with Andrea Modena
