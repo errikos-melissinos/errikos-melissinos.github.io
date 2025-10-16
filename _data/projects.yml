@@ -17,7 +17,7 @@
   description: I illustrate a novel method for pricing assets within recursive utility models in continuous time, that has first been used in Melissinos (2023). My method builds on the analytic solution of Tsai and Wachter (2018). While their solution is valid for a value of the intertemporal elasticity of substitution equal to 1, I provide the full perturbation series in terms of the IES, which gives rise to a global perturbation approximation in terms of the state variable. This allows the pricing of assets for a much larger range of values for the IES, which are economically meaningful. I comment on the convergence properties of the perturbation series, and I show that the method provides a straightforward and reliable approach to asset pricing. I employ my method to derive prices of long-term bonds, the price consumption ratio and the instantaneous return of the consumption perpetuity. 
   
 # Julia Package
-- project: SDFPricing: A Julia Package for Asset Pricing Based on a Stochastic Discount Factor Process
+- project: "SDFPricing: A Julia Package for Asset Pricing Based on a Stochastic Discount Factor Process"
   #role:  with Mariia Bondar
   # url: https://www.google.com/url?q=https%3A%2F%2Fwww.dropbox.com%2Fs%2F2ecm7tufxi9311a%2FBondar_Melissinos.pdf%3Fdl%3D0&sa=D&sntz=1&usg=AOvVaw3QxWNFiRpnKncGEu2-R5LZ
   url: /pdfs/SDFPricing.pdf
