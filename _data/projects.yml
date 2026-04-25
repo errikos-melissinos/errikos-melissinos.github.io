@@ -1,14 +1,9 @@
 # Projects
 # uncomment the urls if you wish to display them, and add your own URL
 
-# Real Term Premia in Consumption-Based Models
-- project: The Intermediary Asset Pricing Approach to Puzzles in Macrofinance
-  # url: https://www.dropbox.com/s/fz4hu42ir5dqhif/The%20Challenge%20of%20Real%20Interest%20Rates%20to%20Consumption-Based%20Models.pdf?dl=0
-  # url: https://www.dropbox.com/sh/34s9h40je9pff5r/AACRUgleldxkDaDC2eVtMNYsa?dl=0
-  # url: https://www.dropbox.com/scl/fi/soofvyqh1s7j6swb49c3s/Real-Term-Premia-in-Consumption-Based-Models.pdf?rlkey=wxv3lvv76e19hvwyqzwwm5dap&dl=0
-  url: /pdfs/The_Intermediary_Asset_Pricing_Approach_to_Puzzles_in_Macrofinance.pdf
-  # description: I investigate the ability of consumption-based models to explain the positive time- varying term premia observed in the data. The long-run risk and rare disasters models typically fail by producing small and negative term premia. The habit model appears to be quite successful, but it generates heteroskedastic real interest rates, which are not supported by empirical evidence. Generally, my findings suggest that substantial and positive term premia require counter-cyclical real interest rates and a direct relationship between the stochastic discount factor and the state variable of the economy. My analysis considers models with both time-separable and recursive utility. For the latter, I present a perturbation solution method that facilitates the computation of the price of long-term bonds, while allowing for a wide range of values for the intertemporal elasticity of substitution parameter.
-  description: This article introduces a model with high time-varying volatility in consumption. The model explains a series of puzzles in macrofinance, including the (i) equity premium puzzle, (ii) the risk-free rate puzzle, (iii) the bond premium puzzle, and (iv) the predictability of aggregate stock market returns with price-dividend ratios. Furthermore, it is argued that stochastic volatility of the kind introduced in this article is a necessary ingredient for explaining these puzzles within a broad class of models.
+- project: "High Volatility is the Key: A Joint Treatment of Asset Pricing Puzzles"
+  url: /pdfs/High_Volatility_is_the_Key_A_Joint_Treatment_of_Asset_Pricing_Puzzles.pdf
+  description: Macrofinance faces a fundamental tension in that aggregate consumption volatility is low, yet risk premia are high. However, increasing evidence suggests that regular households are not marginal investors. This article models the marginal investor as a consumer with high, time-varying consumption volatility, motivated by the intermediary asset pricing perspective. This approach yields a joint explanation of five puzzles — the equity premium, the risk-free rate, the bond premium, stock return predictability, and excess volatility. Such stochastic volatility appears to be a necessary ingredient for jointly explaining these puzzles within any standard single-state-variable consumption-based model.
 
 # A Perturbation Solution Method for Models with Recursive Utility
 - project: A Perturbation Solution Method for Models with Recursive Utility
