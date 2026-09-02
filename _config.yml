@@ -62,3 +62,10 @@ resume_print_social_links:      true
 # Note: when editing locally, remember to restart
 # your Jekyll server when you edit this file. Changes
 # to _config.yml are only recognized when the server starts
+
+# Keep this content out of the published site (source stays in the repo)
+exclude:
+  - wedding
+  - weddingFiles
+  - pdfs/wedding-Ankara.pdf
+  - pdfs/Idil-Errikos-Wedding-Greece.pdf
