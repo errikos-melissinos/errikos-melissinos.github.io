@@ -1,0 +1,8 @@
+# Jekyll build output. GitHub Pages builds the site from source, so the
+# generated copy never needs to be committed.
+_site/
+.jekyll-cache/
+.jekyll-metadata
+
+# Local tooling
+.claude/
