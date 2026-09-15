@@ -207,12 +207,18 @@
     font-style: italic;
     font-size: 1.175rem;
   }
-  
+
+  .resume-item-links {
+    font-size: 1.05rem;
+    margin: .35rem 0 0;
+  }
+
   .subsection-header,
   .resume-item-title,
   .resume-item-details,
   .resume-item-copy,
-  .resume-item-list {
+  .resume-item-list,
+  .resume-item-links {
     a {
       color: #333;
       text-decoration: none;

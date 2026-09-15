@@ -130,6 +130,9 @@
 <!--           <h4 class="resume-item-details" itemprop="description">{{ project.role }}  &bull; {{ project.duration }}</h4> -->
           <span class="resume-item-list" itemprop="description">{{ project.role }} </span>
           <p class="resume-item-copy">{{ project.description }}</p>
+          {% if project.appendix_url %}
+          <p class="resume-item-links"><a href="{{ project.appendix_url }}">{{ project.appendix_label | default: "Internet Appendix" }}</a></p>
+          {% endif %}
         </div>
         {% endfor %}
 
@@ -152,6 +155,9 @@
 <!--           <h4 class="resume-item-details" itemprop="description">{{ project.role }}  &bull; {{ project.duration }}</h4> -->
           <span class="resume-item-list" itemprop="description">{{ project.role }} </span>
           <p class="resume-item-copy">{{ project.description }}</p>
+          {% if project.appendix_url %}
+          <p class="resume-item-links"><a href="{{ project.appendix_url }}">{{ project.appendix_label | default: "Internet Appendix" }}</a></p>
+          {% endif %}
         </div>
         {% endfor %}
 
