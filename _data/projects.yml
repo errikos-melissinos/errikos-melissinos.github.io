@@ -4,7 +4,7 @@
 - project: "High Volatility is the Key: A Joint Treatment of Asset Pricing Puzzles"
   url: /pdfs/High_Volatility_is_the_Key_A_Joint_Treatment_of_Asset_Pricing_Puzzles.pdf
   appendix_url: /pdfs/High_Volatility_is_the_Key_Internet_Appendix.pdf
-  description: "Asset pricing puzzles arise when the marginal investor is identified with the average consumer. Increasing evidence indicates that the marginal investor is not the average household, which makes it natural to model this investor as an agent with much higher consumption volatility. In a mostly standard model whose essential feature is high volatility, none of the puzzles studied here arise: the equity premium, the risk-free rate, the bond premium, excess volatility, and stock return predictability. Almost all of the corresponding moments are also matched closely. The theory is general, while the calibration adopts the financial intermediary interpretation."
+  description: "Increasing evidence indicates that the marginal investor is not the average consumer, whose consumption volatility is low. This article shows that in a single model with just one state variable and a higher level of consumption volatility, five central asset pricing puzzles disappear: the equity premium, risk-free rate, real bond premium, excess volatility, and return predictability. The calibration takes the marginal investor to be a financial intermediary and measures its consumption volatility from dealer returns. With only two free parameters, the model matches all eight targeted moments."
 
 # A Perturbation Solution Method for Models with Recursive Utility
 - project: A Perturbation Solution Method for Models with Recursive Utility
