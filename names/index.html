@@ -189,6 +189,57 @@ td.vr.best { color: var(--turq); font-weight: 600; }
 #milestone { color: var(--muted); }
 #milestone:empty { display: none; }
 #pronkey { max-width: 44rem; margin-inline: auto; text-wrap: pretty; }
+
+/* Minimal layer. The duel is the page, everything else steps back. */
+.wrap { gap: 18px; padding-block: 18px 48px; }
+.top { align-items: center; gap: 10px 18px; padding-bottom: 12px; border-bottom: 1px solid var(--line); }
+.brandrow { display: flex; align-items: center; gap: 6px 14px; flex-wrap: wrap; min-width: 0; }
+h1 { font-size: 1.15rem; margin: 0; letter-spacing: -0.01em; }
+.tabs { background: transparent; border: 0; padding: 0; gap: 2px; }
+.tabs button { padding: 4px 10px; font-size: 0.9rem; border-radius: 0; }
+.tabs button[aria-selected="true"] { background: transparent; color: var(--ink); box-shadow: inset 0 -2px 0 var(--ink); }
+.seg.quiet { background: transparent; border: 0; padding: 0; gap: 2px; }
+.seg.quiet button { padding: 3px 10px; font-size: 0.85rem; }
+.seg.quiet button[aria-pressed="true"] { background: var(--cobalt-soft); color: var(--ink); }
+.sync { font-size: 0.75rem; }
+.linkbtn { font-size: 0.85rem; }
+.linkbtn[disabled] { opacity: .4; cursor: default; text-decoration: none; }
+
+.duel { display: grid; gap: 18px; }
+.who { justify-content: center; gap: 6px 10px; font-size: 0.85rem; }
+.newvoter .field { width: 10rem; }
+.arena { gap: 18px; margin-block: 6px 0; }
+.card { min-height: 290px; padding: 40px 24px 18px; align-items: center; text-align: center; justify-content: center; gap: 14px; border-color: var(--line); box-shadow: 0 1px 0 var(--line); }
+.card:hover { box-shadow: 0 10px 28px -16px var(--cobalt); }
+.namebox { justify-items: center; gap: 10px; }
+.nm { font-size: clamp(2.6rem, 7.5vw, 4.4rem); }
+.mean { max-width: 22rem; font-size: 0.9rem; }
+.cardfoot { margin-top: auto; justify-content: center; gap: 10px; width: 100%; font-size: 0.72rem; opacity: .8; }
+.star { width: 44px; height: 44px; }
+.star span { font-size: 0.72rem; }
+.controls { gap: 10px; align-items: center; }
+.controls .linkbtn { font-size: 0.9rem; }
+.dot { color: var(--muted); }
+.progress { max-width: 30rem; width: 100%; margin-inline: auto; display: grid; gap: 4px; text-align: center; }
+.progress .bar { height: 3px; }
+.progress .note { font-size: 0.78rem; }
+#milestone:empty { display: none; }
+.fine { max-width: 40rem; margin: 18px auto 0; padding-top: 18px; border-top: 1px solid var(--line); display: grid; gap: 10px; color: var(--muted); font-size: 0.8rem; text-align: center; text-wrap: pretty; }
+.fine p { margin: 0; }
+.fine strong { color: var(--ink); font-weight: 600; }
+.podiumline, .focusline { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 6px 10px; }
+.focusline .note { font-size: 0.78rem; flex-basis: 100%; }
+.podium { gap: 4px 10px; justify-content: center; }
+.podium li { background: transparent; padding: 0; gap: 4px; }
+.podium b { font-size: 0.95rem; color: var(--ink); }
+.podium span { font-size: 0.7rem; }
+@media (max-width: 600px) {
+  .top { justify-content: center; text-align: center; }
+  .brandrow { justify-content: center; }
+  .card { min-height: 0; padding: 28px 18px 14px; }
+  .nm { font-size: clamp(2.4rem, 11vw, 3rem); }
+  .arena { gap: 6px; }
+}
 </style>
 </head>
 <body>
@@ -206,34 +257,28 @@ td.vr.best { color: var(--turq); font-weight: 600; }
 
 <div class="wrap" id="app">
   <header class="top">
-    <div class="brand">
+    <div class="brandrow">
       <h1>Boy Name Duel</h1>
-      <p class="sub">Pick the name you like more. Every pick updates an Elo rating, the way chess players are ranked, so the best names rise without anyone sorting a long list.</p>
+      <div class="seg quiet" id="listseg" role="group" aria-label="Which names">
+        <button data-list="tr" aria-pressed="true">Turkish</button>
+        <button data-list="gr" aria-pressed="false">Greek</button>
+      </div>
     </div>
+    <nav class="tabs" role="tablist" aria-label="Views">
+      <button role="tab" id="t-duel" data-tab="duel" aria-selected="true">Duel</button>
+      <button role="tab" id="t-rank" data-tab="rank" aria-selected="false">Ranking</button>
+      <button role="tab" id="t-names" data-tab="names" aria-selected="false">Names</button>
+    </nav>
     <div class="topright"><div class="sync" id="sync" data-state="idle">Connecting</div><button class="linkbtn" id="signout" type="button">Sign out</button></div>
   </header>
 
-  <div class="listbar">
-    <span class="eyebrow">Names</span>
-    <div class="seg" id="listseg" role="group" aria-label="Which names">
-      <button data-list="tr" aria-pressed="true">Turkish</button>
-      <button data-list="gr" aria-pressed="false">Greek</button>
-    </div>
-    <span class="note" id="listnote"></span>
-  </div>
-
-  <nav class="tabs" role="tablist" aria-label="Views">
-    <button role="tab" id="t-duel" data-tab="duel" aria-selected="true">Duel</button>
-    <button role="tab" id="t-rank" data-tab="rank" aria-selected="false">Ranking</button>
-    <button role="tab" id="t-names" data-tab="names" aria-selected="false">Names</button>
-  </nav>
-
-  <section id="tab-duel" class="wrapgrid" style="display:grid;gap:18px">
+  <section id="tab-duel" class="duel">
     <div class="who">
-      <span class="eyebrow">Who's picking</span>
-      <div class="seg" id="voterseg" role="group" aria-label="Who is picking"></div>
-      <form class="newvoter" id="newvoter">
-        <input class="field" id="newvotername" maxlength="24" placeholder="Add a person" autocomplete="off" aria-label="New person's name">
+      <span class="eyebrow">Picking</span>
+      <div class="seg quiet" id="voterseg" role="group" aria-label="Who is picking"></div>
+      <button class="linkbtn" id="addperson" type="button">+ Add person</button>
+      <form class="newvoter" id="newvoter" hidden>
+        <input class="field" id="newvotername" maxlength="24" placeholder="Your name" autocomplete="off" aria-label="New person's name">
         <button class="btn" type="submit">Add</button>
       </form>
     </div>
@@ -251,29 +296,28 @@ td.vr.best { color: var(--turq); font-weight: 600; }
       </button>
     </div>
     <div class="controls">
-      <button class="btn" id="skip">Can't decide</button>
-      <button class="btn" id="undo">Undo last pick</button>
+      <button class="linkbtn" id="skip" type="button">Can't decide</button>
+      <span class="dot" aria-hidden="true">·</span>
+      <button class="linkbtn" id="undo" type="button">Undo</button>
     </div>
-    <div class="endless" role="note">
-      <p><strong>Heads up, this never ends.</strong> There's no last pick. New pairs keep coming for as long as you like, and every pick only nudges the ranking a little. Your picks are saved, so stop whenever you want and come back later.</p>
-      <p id="milestone"></p>
+    <div class="progress">
+      <div class="bar"><i id="bar"></i></div>
+      <p class="note" id="covtext"></p>
+      <p class="note" id="milestone"></p>
     </div>
-    <p class="hint">On a keyboard, ← and → pick, space skips, Z undoes.</p>
-    <p class="hint" id="pronkey"></p>
-    <div class="panel">
-      <div class="duelmeta">
-        <div class="cov">
-          <div class="bar"><i id="bar"></i></div>
-          <small id="covtext"></small>
-        </div>
-        <div class="seg" role="group" aria-label="Which names to pair">
+    <div class="fine">
+      <div class="podiumline"><span class="eyebrow" id="podiumlabel">Top five so far</span><ol class="podium" id="podium"></ol></div>
+      <div class="focusline">
+        <div class="seg quiet" role="group" aria-label="Which names to pair">
           <button id="f-all" data-focus="all" aria-pressed="true">All names</button>
           <button id="f-top" data-focus="top" aria-pressed="false">Top contenders</button>
         </div>
+        <p class="note" id="focusnote"></p>
       </div>
-      <p class="note" id="focusnote"></p>
-      <p class="eyebrow" id="podiumlabel">Top five so far</p>
-      <ol class="podium" id="podium"></ol>
+      <p><strong>Heads up, this never ends.</strong> There's no last pick. New pairs keep coming for as long as you like, and every pick only nudges the ranking a little. Your picks are saved, so stop whenever you want and come back later.</p>
+      <p>Every pick updates an Elo rating, the way chess players are ranked, so the best names rise without anyone sorting a long list. <span id="listnote"></span></p>
+      <p id="pronkey"></p>
+      <p class="kbdhint">On a keyboard, ← and → pick, space skips, Z undoes.</p>
     </div>
   </section>
 
@@ -942,7 +986,10 @@ function renderVoters() {
     b.setAttribute("aria-pressed", S.current === id);
     b.onclick = () => selectVoter(id); seg.append(b);
   }
-  $("newvotername").placeholder = voterIds().length ? "Add a person" : "Type your name to start";
+  const none = voterIds().length === 0;
+  $("newvoter").hidden = !(none || S.adding);
+  $("addperson").hidden = !$("newvoter").hidden;
+  $("newvotername").placeholder = none ? "Type your name to start" : "Their name";
 }
 function sayIt(p) { if (!p || !p.p) return ""; return (p.lat ? p.lat + ", " : "") + "say " + p.p; }
 function renderList() {
@@ -1149,7 +1196,8 @@ $("c0").onclick = () => vote(0);
 $("c1").onclick = () => vote(1);
 $("skip").onclick = skip;
 $("undo").onclick = undo;
-$("newvoter").onsubmit = e => { e.preventDefault(); addVoter($("newvotername").value); $("newvotername").value = ""; };
+$("newvoter").onsubmit = e => { e.preventDefault(); S.adding = false; addVoter($("newvotername").value); $("newvotername").value = ""; renderVoters(); };
+$("addperson").onclick = () => { S.adding = true; renderVoters(); $("newvotername").focus(); };
 for (const b of document.querySelectorAll("[data-tab]")) b.onclick = () => { S.tab = b.dataset.tab; S.confirm = null; renderAll(); };
 for (const b of document.querySelectorAll("[data-focus]")) b.onclick = () => { S.focus = b.dataset.focus; S.recent = []; nextPair(); renderDuel(); };
 $("search").oninput = () => renderNames();
