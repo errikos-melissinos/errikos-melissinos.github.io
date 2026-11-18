@@ -1,0 +1,970 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex">
+<title>Boy Name Duel</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Inter+Tight:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap">
+<style>
+*, *::before, *::after { box-sizing: border-box; }
+:root { padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px); }
+body { margin: 0; -webkit-text-size-adjust: 100%; }
+[hidden] { display: none !important; }
+img { max-width: 100%; }
+
+/* Layout. One centred column. The duel arena opens the page, tabs switch to the ranking and the name list. */
+:root {
+  --bg: #f2f4f8;
+  --surface: #ffffff;
+  --ink: #131d36;
+  --muted: #5b6780;
+  --line: #d8deea;
+  --cobalt: #1d4ea8;
+  --cobalt-soft: #e2eaf9;
+  --turq: #12857b;
+  --turq-soft: #dbf1ee;
+  --clay: #c2462e;
+  --font-display: "Bricolage Grotesque", "Inter Tight", "Avenir Next", system-ui, sans-serif;
+  --font-body: "Inter Tight", "Helvetica Neue", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, Menlo, monospace;
+  --radius: 14px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0d1322; --surface: #151d32; --ink: #e7ecf6; --muted: #98a4bd; --line: #27324e;
+    --cobalt: #82a8f2; --cobalt-soft: #1c2948; --turq: #45c3b5; --turq-soft: #12302f; --clay: #ee7c62;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0d1322; --surface: #151d32; --ink: #e7ecf6; --muted: #98a4bd; --line: #27324e;
+  --cobalt: #82a8f2; --cobalt-soft: #1c2948; --turq: #45c3b5; --turq-soft: #12302f; --clay: #ee7c62;
+  color-scheme: dark;
+}
+html, body { background: var(--bg); color: var(--ink); }
+body { font-family: var(--font-body); font-size: 15px; line-height: 1.5; }
+.wrap {
+  max-width: 880px; margin: 0 auto;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 28px 56px;
+  display: grid; gap: 22px;
+}
+button, input { font: inherit; color: inherit; }
+button { cursor: pointer; }
+:focus-visible { outline: 2px solid var(--cobalt); outline-offset: 2px; }
+
+/* Header */
+.top { display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: 12px 24px; }
+.brand { min-width: 0; max-width: 34rem; }
+h1 { font-family: var(--font-display); font-weight: 800; font-size: clamp(1.9rem, 5vw, 2.6rem); line-height: 1.05; margin: 0 0 6px; letter-spacing: -0.02em; text-wrap: balance; }
+.sub { margin: 0; color: var(--muted); }
+.sync { font-size: 0.82rem; color: var(--muted); display: inline-flex; align-items: center; gap: 8px; }
+.sync::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--muted); }
+.sync[data-state="saved"]::before { background: var(--turq); }
+.sync[data-state="saving"]::before { background: var(--cobalt); }
+.sync[data-state="warn"]::before { background: var(--clay); }
+
+/* Tabs and segmented controls */
+.tabs, .seg { display: flex; flex-wrap: wrap; gap: 4px; padding: 4px; background: var(--surface); border: 1px solid var(--line); border-radius: 999px; width: fit-content; max-width: 100%; }
+.tabs button, .seg button { border: 0; background: transparent; padding: 7px 16px; border-radius: 999px; font-weight: 500; color: var(--muted); }
+.tabs button[aria-selected="true"], .seg button[aria-pressed="true"] { background: var(--ink); color: var(--bg); }
+.seg button { padding: 5px 12px; font-size: 0.88rem; }
+
+/* Duel arena */
+.arena { display: grid; grid-template-columns: 1fr auto 1fr; align-items: stretch; gap: 14px; }
+.card {
+  position: relative; min-width: 0; text-align: left;
+  background: var(--surface); border: 1.5px solid var(--line); border-radius: var(--radius);
+  padding: 28px 24px 22px; min-height: 210px;
+  display: flex; flex-direction: column; justify-content: space-between; gap: 18px;
+  transition: border-color .15s, transform .15s, background .2s;
+}
+.card:hover { border-color: var(--cobalt); transform: translateY(-2px); }
+.card:active { transform: translateY(0); }
+.card.won { border-color: var(--turq); background: var(--turq-soft); }
+.card[disabled] { cursor: default; opacity: .5; transform: none; }
+.nm { font-family: var(--font-display); font-weight: 700; font-size: clamp(2.2rem, 7vw, 3.6rem); line-height: 1; letter-spacing: -0.02em; overflow-wrap: anywhere; }
+.mean { color: var(--muted); font-size: 0.95rem; text-wrap: pretty; }
+.cardfoot { display: flex; justify-content: space-between; align-items: center; gap: 8px; font-size: 0.78rem; color: var(--muted); }
+.kbd { font-family: var(--font-mono); font-size: 0.75rem; border: 1px solid var(--line); border-radius: 6px; padding: 1px 7px; }
+.vs { display: grid; place-items: center; }
+.star { width: 54px; height: 54px; position: relative; display: grid; place-items: center; }
+.star::before, .star::after { content: ""; position: absolute; inset: 7px; background: var(--clay); border-radius: 3px; }
+.star::after { transform: rotate(45deg); }
+.star span { position: relative; z-index: 1; color: var(--bg); font-family: var(--font-display); font-weight: 800; font-size: 0.85rem; letter-spacing: 0.04em; }
+
+.controls { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; }
+.btn { border: 1px solid var(--line); background: var(--surface); border-radius: 999px; padding: 8px 18px; font-weight: 500; }
+.btn:hover { border-color: var(--cobalt); }
+.btn.primary { background: var(--cobalt); border-color: var(--cobalt); color: var(--bg); }
+.btn.danger { color: var(--clay); }
+.btn[disabled] { opacity: .45; cursor: default; }
+
+.duelmeta { display: grid; grid-template-columns: 1fr auto; gap: 14px 24px; align-items: center; }
+.cov { display: grid; gap: 6px; min-width: 0; }
+.cov small { color: var(--muted); }
+.bar { height: 6px; background: var(--line); border-radius: 999px; overflow: hidden; }
+.bar i { display: block; height: 100%; width: 0; background: var(--turq); transition: width .3s; }
+.hint { margin: 0; text-align: center; color: var(--muted); font-size: 0.82rem; }
+.note { margin: 0; color: var(--muted); font-size: 0.85rem; }
+
+.panel { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 18px 20px; display: grid; gap: 12px; min-width: 0; }
+.panel h2 { font-family: var(--font-display); font-weight: 700; font-size: 1.15rem; margin: 0; }
+.eyebrow { text-transform: uppercase; letter-spacing: 0.08em; font-size: 0.72rem; font-weight: 600; color: var(--muted); margin: 0; }
+.podium { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; }
+.podium li { display: inline-flex; align-items: baseline; gap: 8px; padding: 6px 12px; border-radius: 999px; background: var(--cobalt-soft); }
+.podium b { font-family: var(--font-display); font-weight: 700; font-size: 1.05rem; }
+.podium span { font-family: var(--font-mono); font-size: 0.75rem; color: var(--muted); }
+
+/* Ranking */
+.rankhead { display: flex; flex-wrap: wrap; gap: 12px 20px; align-items: center; justify-content: space-between; }
+.tablewrap { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; }
+th { text-align: left; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); font-weight: 600; padding: 6px 10px; border-bottom: 1px solid var(--line); }
+td { padding: 10px 10px; border-bottom: 1px solid var(--line); vertical-align: top; }
+tr:last-child td { border-bottom: 0; }
+td.pos { font-family: var(--font-mono); color: var(--muted); width: 2.5rem; }
+td.num, th.num { text-align: right; font-family: var(--font-mono); white-space: nowrap; }
+.rn { font-family: var(--font-display); font-weight: 700; font-size: 1.15rem; line-height: 1.2; }
+.rm { color: var(--muted); font-size: 0.85rem; }
+tr.top3 .rn { color: var(--turq); }
+tr.thin td { opacity: .62; }
+.chip { display: inline-block; font-size: 0.7rem; font-weight: 600; padding: 1px 8px; border-radius: 999px; background: var(--cobalt-soft); color: var(--cobalt); margin-left: 6px; vertical-align: 2px; white-space: nowrap; }
+.chip.warn { background: transparent; border: 1px solid var(--clay); color: var(--clay); }
+
+/* Names */
+.addform { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 2fr) auto; gap: 8px; }
+.field { border: 1px solid var(--line); background: var(--bg); border-radius: 10px; padding: 8px 12px; min-width: 0; }
+.namelist { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 8px; }
+.namelist li { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 10px 12px; border: 1px solid var(--line); border-radius: 10px; min-width: 0; }
+.namelist li.out { opacity: .5; }
+.namelist li.out .rn { text-decoration: line-through; }
+.namelist .txt { min-width: 0; }
+.namelist .acts { display: flex; gap: 6px; flex-shrink: 0; }
+.mini { border: 1px solid var(--line); background: transparent; border-radius: 999px; padding: 3px 10px; font-size: 0.78rem; }
+.mini:hover { border-color: var(--cobalt); }
+.confirm { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+.who { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px; }
+.who .eyebrow { margin: 0; }
+.newvoter { display: flex; gap: 6px; }
+.newvoter .field { width: 11rem; max-width: 100%; padding-block: 6px; }
+.newvoter .btn { padding: 6px 14px; }
+.seg:empty { display: none; }
+td.vr, th.vr { text-align: right; font-family: var(--font-mono); white-space: nowrap; color: var(--muted); }
+td.vr.best { color: var(--turq); font-weight: 600; }
+
+@media (max-width: 600px) {
+  .arena { grid-template-columns: 1fr; gap: 8px; }
+  .card { min-height: 0; padding: 22px 20px 16px; }
+  .vs { margin-block: -2px; }
+  .star { width: 44px; height: 44px; }
+  .duelmeta { grid-template-columns: 1fr; }
+  .addform { grid-template-columns: 1fr; }
+  .kbd { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; }
+}
+
+/* Password gate */
+.gate { max-width: 420px; margin: 12vh auto 0; }
+.gate form { display: grid; gap: 10px; }
+.gate .field { font-size: 1rem; padding: 10px 14px; }
+.gate .note { min-height: 1.4em; }
+.topright { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.linkbtn { border: 0; background: none; padding: 0; color: var(--muted); font-size: 0.82rem; text-decoration: underline; text-underline-offset: 3px; }
+.linkbtn:hover { color: var(--ink); }
+</style>
+</head>
+<body>
+<div class="wrap gate" id="gate" hidden>
+  <div class="panel">
+    <h1>Boy Name Duel</h1>
+    <p class="sub">Enter the family password to vote and see the rankings. You only need to do this once on each device.</p>
+    <form id="gateform">
+      <input class="field" id="gatepw" type="password" autocomplete="current-password" placeholder="Password" aria-label="Password">
+      <button class="btn primary" type="submit">Open</button>
+      <p class="note" id="gatemsg" role="status"></p>
+    </form>
+  </div>
+</div>
+
+<div class="wrap" id="app">
+  <header class="top">
+    <div class="brand">
+      <h1>Boy Name Duel</h1>
+      <p class="sub">Pick the name you like more. Every pick updates an Elo rating, the way chess players are ranked, so the best names rise without anyone sorting a list of 180.</p>
+    </div>
+    <div class="topright"><div class="sync" id="sync" data-state="idle">Connecting</div><button class="linkbtn" id="signout" type="button">Sign out</button></div>
+  </header>
+
+  <nav class="tabs" role="tablist" aria-label="Views">
+    <button role="tab" id="t-duel" data-tab="duel" aria-selected="true">Duel</button>
+    <button role="tab" id="t-rank" data-tab="rank" aria-selected="false">Ranking</button>
+    <button role="tab" id="t-names" data-tab="names" aria-selected="false">Names</button>
+  </nav>
+
+  <section id="tab-duel" class="wrapgrid" style="display:grid;gap:18px">
+    <div class="who">
+      <span class="eyebrow">Who's picking</span>
+      <div class="seg" id="voterseg" role="group" aria-label="Who is picking"></div>
+      <form class="newvoter" id="newvoter">
+        <input class="field" id="newvotername" maxlength="24" placeholder="Add a person" autocomplete="off" aria-label="New person's name">
+        <button class="btn" type="submit">Add</button>
+      </form>
+    </div>
+    <div class="arena">
+      <button class="card" id="c0" aria-label="Pick left name">
+        <span><span class="nm" lang="tr"></span></span>
+        <span class="mean"></span>
+        <span class="cardfoot"><span class="rec"></span><span class="kbd">←</span></span>
+      </button>
+      <div class="vs" aria-hidden="true"><div class="star"><span>VS</span></div></div>
+      <button class="card" id="c1" aria-label="Pick right name">
+        <span><span class="nm" lang="tr"></span></span>
+        <span class="mean"></span>
+        <span class="cardfoot"><span class="rec"></span><span class="kbd">→</span></span>
+      </button>
+    </div>
+    <div class="controls">
+      <button class="btn" id="skip">Can't decide</button>
+      <button class="btn" id="undo">Undo last pick</button>
+    </div>
+    <p class="hint">On a keyboard, ← and → pick, space skips, Z undoes.</p>
+    <div class="panel">
+      <div class="duelmeta">
+        <div class="cov">
+          <div class="bar"><i id="bar"></i></div>
+          <small id="covtext"></small>
+        </div>
+        <div class="seg" role="group" aria-label="Which names to pair">
+          <button id="f-all" data-focus="all" aria-pressed="true">All names</button>
+          <button id="f-top" data-focus="top" aria-pressed="false">Top contenders</button>
+        </div>
+      </div>
+      <p class="note" id="focusnote"></p>
+      <p class="eyebrow" id="podiumlabel">Top five so far</p>
+      <ol class="podium" id="podium"></ol>
+    </div>
+  </section>
+
+  <section id="tab-rank" hidden style="display:grid;gap:14px">
+    <div class="rankhead">
+      <div class="seg" id="rankviews" role="group" aria-label="Whose ranking"></div>
+      <span class="note" id="ranksum"></span>
+    </div>
+    <div class="panel">
+      <div class="tablewrap">
+        <table>
+          <thead id="rankthead"></thead>
+          <tbody id="rankbody"></tbody>
+        </table>
+      </div>
+      <p class="note" id="rankfoot"></p>
+    </div>
+  </section>
+
+  <section id="tab-names" hidden style="display:grid;gap:14px">
+    <div class="panel">
+      <h2>Add a name</h2>
+      <form class="addform" id="addform">
+        <input class="field" id="addname" maxlength="30" placeholder="Name" autocomplete="off" lang="tr" aria-label="Name">
+        <input class="field" id="addmean" maxlength="80" placeholder="Meaning (optional)" autocomplete="off" aria-label="Meaning">
+        <button class="btn primary" type="submit">Add</button>
+      </form>
+      <p class="note" id="addmsg"></p>
+    </div>
+    <div class="panel">
+      <div class="rankhead">
+        <h2 id="namecount">Names</h2>
+        <input class="field" id="search" placeholder="Search names or meanings" autocomplete="off" aria-label="Search names">
+      </div>
+      <p class="note" id="vetonote">Take a name out and it stops appearing in that person's duels. Everyone else still sees it.</p>
+      <ul class="namelist" id="namelist"></ul>
+    </div>
+    <div class="panel">
+      <h2>Start over</h2>
+      <div class="confirm" id="resetbox"></div>
+    </div>
+  </section>
+</div>
+
+<script>
+
+const BASE_TEXT = `Ahmet|Most praised
+Alaz|Flame
+Ali|Exalted, high
+Alp|Brave, a hero
+Alparslan|Brave lion, a Seljuk sultan
+Alper|Brave man
+Alperen|Hero and saint
+Arda|A river that flows through Bulgaria, Greece and Turkey
+Aras|A river in eastern Anatolia
+Arif|Wise, knowing
+Arın|Pure, clean
+Asil|Noble
+Aslan|Lion
+Ata|Ancestor, forefather
+Atakan|Of noble ancestry
+Ateş|Fire
+Atlas|The titan who holds up the sky
+Ayaz|Clear, frosty night air
+Aybars|Moon panther
+Ayberk|Moon and strength
+Aydın|Bright, enlightened
+Ayhan|Moon khan
+Aykut|Blessed moon
+Bahadır|Brave, valiant
+Baran|Rain
+Barlas|Brave warrior
+Barış|Peace
+Batu|Firm, strong
+Batuhan|Strong khan
+Baturalp|Brave hero
+Berat|Innocence, also a holy night
+Berk|Solid, firm
+Berkay|Strong moon
+Berke|Firm, strong
+Bilge|Wise
+Bora|Storm, a strong north wind
+Bulut|Cloud
+Burak|Lightning, the winged steed of legend
+Bülent|Lofty, high
+Can|Soul, life, dear one
+Cem|Gathering, also a legendary Persian king
+Cemal|Beauty
+Cengiz|From Genghis, the great ruler
+Cenk|Battle
+Cihan|The world
+Çağatay|A son of Genghis Khan
+Çağlar|Ages, eras
+Çağrı|A call, an invitation
+Çınar|Plane tree, a symbol of long life
+Davut|David
+Demir|Iron
+Deniz|Sea
+Dinç|Vigorous, robust
+Doruk|Summit, peak
+Doğan|Falcon
+Doğukan|Khan of the east
+Efe|Brave young man, elder brother
+Ege|The Aegean
+Egemen|Sovereign
+Ekin|Harvest, crops
+Emir|Commander, prince
+Emirhan|Commander and khan
+Emre|Friend, lover, as in Yunus Emre
+Ender|Rare
+Enes|Friendly companion
+Engin|Vast, open
+Erdem|Virtue
+Eren|Saint, one who has reached wisdom
+Erkan|Brave, of strong blood
+Erkin|Free, independent
+Erol|Be a man, be brave
+Ertuğrul|Man and falcon, father of Osman I
+Evren|The universe
+Eymen|Blessed, fortunate
+Eyüp|Job
+Faruk|One who tells right from wrong
+Fatih|Conqueror
+Furkan|The distinction between right and wrong
+Gökay|Sky moon
+Gökhan|Sky khan
+Göktuğ|Banner of the sky
+Görkem|Splendour
+Gürkan|Strong-blooded
+Hakan|Khan of khans, emperor
+Halil|Close friend
+Halit|Eternal
+Hamza|Lion, strong
+Harun|Aaron
+Hasan|Good, handsome
+Hüseyin|Little good one
+Ilgaz|A mountain range in northern Anatolia
+İbrahim|Abraham
+İlkay|New moon
+İlker|First man
+İlyas|Elijah
+İskender|Alexander
+İsmail|Ishmael, God hears
+Kaan|Ruler, khan
+Kadir|Powerful
+Kartal|Eagle
+Kaya|Rock
+Kayra|Grace, divine favour
+Kağan|Emperor, great khan
+Kemal|Perfection, maturity
+Kenan|Canaan
+Kerem|Generosity, nobility
+Kerim|Generous
+Koray|Ember moon
+Kubilay|Kublai Khan
+Kutay|Blessed moon
+Kuzey|North
+Kıvanç|Pride, joy
+Levent|Tall and handsome, an Ottoman sailor
+Mehmet|Praised
+Mert|Brave and trustworthy man
+Mertcan|Brave soul
+Mete|A Hun ruler, founder of the first Turkic state
+Metin|Firm, solid
+Miraç|Ascension
+Mirza|Prince, nobleman
+Murat|Wish, desire
+Musa|Moses
+Mustafa|The chosen one
+Nazım|One who arranges, a poet
+Nuh|Noah
+Okan|Understanding, clever
+Onur|Honour
+Orhan|Great khan, an Ottoman sultan
+Orkun|The Orkhon river, home of the oldest Turkic inscriptions
+Ozan|Bard, minstrel
+Oğuz|The legendary Turkic ancestor
+Oğuzhan|Oghuz Khan
+Ömer|Long life
+Özgür|Free
+Polat|Steel
+Poyraz|The north-east wind, Boreas in Greek
+Rüzgar|Wind
+Rıza|Contentment, consent
+Sarp|Steep, hard to conquer
+Selim|Safe, sound
+Selçuk|The Seljuk dynasty
+Serdar|Commander
+Serkan|Leader, head of khans
+Sinan|Spearhead, as in Mimar Sinan
+Şahin|Falcon
+Taha|A sura of the Quran
+Tan|Dawn
+Taner|Man of dawn
+Tarık|Morning star
+Tayfun|Typhoon
+Taylan|Tall, slender, handsome
+Tekin|Prince
+Timur|Iron
+Tolga|Helmet
+Tolunay|Full moon
+Toprak|Earth, soil
+Tuna|The Danube
+Tunahan|Khan of the Danube
+Tuncay|Bronze moon
+Turan|Homeland of the Turks
+Tunç|Bronze
+Tuğrul|Bird of prey
+Ufuk|Horizon
+Ulaş|To reach, to arrive
+Umut|Hope
+Uras|Luck, fortune
+Utku|Victory
+Uygar|Civilised
+Uğur|Good luck
+Volkan|Volcano
+Yahya|John
+Yakup|Jacob
+Yalçın|Steep, sheer
+Yalın|Pure, simple, also flame
+Yaman|Capable, strong
+Yavuz|Stern, formidable
+Yağız|Brave, dark-complexioned
+Yekta|Unique, one of a kind
+Yiğit|Brave young man
+Yunus|Jonah
+Yusuf|Joseph
+Yücel|Exalted
+Zafer|Victory
+Ziya|Light`;
+const BASE = BASE_TEXT.split("\n").map(l => { const [n, m] = l.split("|"); return { n: n.trim(), m: (m || "").trim() }; });
+
+const API_URL = "https://script.google.com/macros/s/AKfycbxbkQz3jCFam-JxAJRNtZ6BkFt1w6JyC-TiSCfRbGma3z-klxBJcPu41i6QSImflE8/exec";
+const LS_PW = "nameduel.pw";
+const LS_PENDING = "nameduel.pending.v3";
+const LS_SERVER = "nameduel.server.v3";
+const LS_CURRENT = "nameduel.current.v3";
+const key = s => s.toLocaleLowerCase("tr");
+const clone = o => JSON.parse(JSON.stringify(o));
+const $ = id => document.getElementById(id);
+const rid = p => p + "-" + Date.now().toString(36) + "-" + Math.random().toString(36).slice(2, 8);
+const lsGet = k => { try { return localStorage.getItem(k); } catch (e) { return null; } };
+const lsSet = (k, v) => { try { localStorage.setItem(k, v); } catch (e) {} };
+const lsDel = k => { try { localStorage.removeItem(k); } catch (e) {} };
+const lsJSON = (k, d) => { try { const v = JSON.parse(lsGet(k)); return v == null ? d : v; } catch (e) { return d; } };
+
+const S = {
+  password: lsGet(LS_PW) || "",
+  server: lsJSON(LS_SERVER, { voters: [], votes: [] }),   // last state the sheet returned
+  pending: lsJSON(LS_PENDING, []),                         // changes not yet confirmed by the sheet
+  voters: {},                                              // view: server state with pending changes applied
+  current: lsGet(LS_CURRENT),
+  inflight: false, retryAt: 0, everLoaded: false,
+  syncState: "idle", syncText: "Connecting",
+  tab: "duel", focus: "all", rankView: null,
+  pair: null, recent: [], confirm: null,
+};
+const cur = () => S.voters[S.current] || null;
+const voterName = id => (S.voters[id] && S.voters[id].name) || "Someone";
+const voterIds = () => Object.keys(S.voters).sort((a, b) => voterName(a).localeCompare(voterName(b), "tr"));
+const possessive = n => n + (/s$/i.test(n) ? "'" : "'s");
+
+/* ---------- state = sheet + pending changes ---------- */
+function applyOp(V, op) {
+  if (op.op === "voter") {
+    const old = V[op.id] || { votes: [] };
+    V[op.id] = { name: op.name, vetoes: op.vetoes || [], added: op.added || [], updated: op.updated || 0, votes: old.votes };
+  } else if (op.op === "vote") {
+    if (!V[op.voter]) V[op.voter] = { name: "Someone", vetoes: [], added: [], updated: 0, votes: [] };
+    if (!V[op.voter].votes.some(v => v[3] === op.vid)) V[op.voter].votes.push([op.w, op.l, op.t, op.vid]);
+  } else if (op.op === "unvote") {
+    for (const v of Object.values(V)) v.votes = v.votes.filter(x => x[3] !== op.vid);
+  } else if (op.op === "clear") {
+    if (V[op.voter]) V[op.voter].votes = V[op.voter].votes.filter(x => x[2] > op.t);
+  } else if (op.op === "removeVoter") {
+    delete V[op.voter];
+  }
+}
+function rebuild() {
+  const V = {};
+  for (const v of S.server.voters || []) V[v.id] = { name: v.name, vetoes: v.vetoes || [], added: v.added || [], updated: v.updated || 0, votes: [] };
+  for (const r of S.server.votes || []) {
+    const [voter, w, l, t, vid] = r;
+    if (!V[voter]) V[voter] = { name: "Someone", vetoes: [], added: [], updated: 0, votes: [] };
+    V[voter].votes.push([w, l, t, vid]);
+  }
+  for (const v of Object.values(V)) v.votes.sort((a, b) => a[2] - b[2]);
+  for (const op of S.pending) applyOp(V, op);
+  S.voters = V;
+  S.onList = new Set(pool().map(p => p.n));
+}
+function queue(op) {
+  S.pending.push(op);
+  lsSet(LS_PENDING, JSON.stringify(S.pending));
+  rebuild();
+  setSync("saving", "Saving");
+  clearTimeout(flushTimer); flushTimer = setTimeout(flush, 600);
+}
+function voterOp(id, patch) {
+  const v = S.voters[id];
+  return Object.assign({ op: "voter", id, name: v.name, vetoes: v.vetoes || [], added: v.added || [], updated: Date.now() }, patch);
+}
+
+/* ---------- talking to the sheet ---------- */
+let flushTimer = null, pollTimer = null;
+async function call(body) {
+  const res = await fetch(API_URL, { method: "POST", body: JSON.stringify(Object.assign({ password: S.password }, body)) });
+  if (!res.ok) throw new Error("http " + res.status);
+  return res.json();
+}
+function takeState(state) {
+  S.server = state || { voters: [], votes: [] };
+  lsSet(LS_SERVER, JSON.stringify(S.server));
+  S.everLoaded = true;
+  const hadPair = S.pair && cur();
+  rebuild();
+  if (S.current && !S.voters[S.current]) S.current = null;
+  if (!hadPair) nextPair();
+}
+async function flush(isPoll) {
+  if (S.inflight || !S.password || API_URL.startsWith("PASTE")) return;
+  if (Date.now() < S.retryAt) return;
+  const batch = S.pending.slice(0, 300);
+  if (!batch.length && !isPoll) return;
+  S.inflight = true;
+  try {
+    const r = await call(batch.length ? { action: "sync", ops: batch } : { action: "state" });
+    if (!r.ok) {
+      if (r.error === "wrong_password") { S.inflight = false; lockOut("That password didn't work. Try again."); return; }
+      throw new Error(r.error || "error");
+    }
+    S.pending = S.pending.slice(batch.length);
+    lsSet(LS_PENDING, JSON.stringify(S.pending));
+    takeState(r.state);
+    hideGate();
+    setSync(S.pending.length ? "saving" : "saved", S.pending.length ? "Saving" : "Saved to the sheet");
+    S.retryAt = 0;
+    renderSoon();
+  } catch (e) {
+    S.retryAt = Date.now() + 4000 + Math.random() * 3000;
+    if (!$("gate").hidden) $("gatemsg").textContent = "Can't reach the sheet. Check the connection and try again.";
+    setSync("warn", S.pending.length ? "Offline. Picks are kept on this device and will be sent when it reconnects." : "Can't reach the sheet right now");
+    setTimeout(() => flush(), 7500);
+  } finally {
+    S.inflight = false;
+    if (S.pending.length && Date.now() >= S.retryAt) setTimeout(() => flush(), 50);
+  }
+}
+function startPolling() {
+  clearInterval(pollTimer);
+  pollTimer = setInterval(() => { if (document.visibilityState === "visible") flush(true); }, 25000);
+}
+document.addEventListener("visibilitychange", () => { if (document.visibilityState === "visible" && S.password) flush(true); });
+
+/* ---------- password gate ---------- */
+function lockOut(msg) {
+  S.password = ""; lsDel(LS_PW);
+  $("gate").hidden = false; $("app").hidden = true;
+  $("gatemsg").textContent = msg || "";
+  $("gatepw").value = ""; $("gatepw").focus();
+}
+function hideGate() { $("gate").hidden = true; $("app").hidden = false; }
+$("gateform").onsubmit = e => {
+  e.preventDefault();
+  const pw = $("gatepw").value.trim(); if (!pw) return;
+  S.password = pw; lsSet(LS_PW, pw);
+  $("gatemsg").textContent = "Checking";
+  flush(true);
+};
+$("signout").onclick = () => lockOut("");
+
+/* ---------- names ---------- */
+function pool() {
+  const m = new Map();
+  for (const b of BASE) m.set(key(b.n), { n: b.n, m: b.m });
+  for (const id of voterIds()) for (const a of (S.voters[id].added || [])) {
+    const k = key(a[0]); if (!m.has(k)) m.set(k, { n: a[0], m: a[1] || "", by: id });
+  }
+  return [...m.values()].sort((a, b) => a.n.localeCompare(b.n, "tr"));
+}
+function activeNames() {
+  const out = new Set((cur() && cur().vetoes) || []);
+  return pool().filter(p => !out.has(key(p.n)));
+}
+
+/* ---------- Elo ---------- */
+function computeElo(votes) {
+  const E = new Map();
+  const g = n => { let s = E.get(n); if (!s) { s = { r: 1500, w: 0, l: 0 }; E.set(n, s); } return s; };
+  for (const v of votes) {
+    // duels involving a name that is no longer on the list do not count
+    if (S.onList && !(S.onList.has(v[0]) && S.onList.has(v[1]))) continue;
+    const a = g(v[0]), b = g(v[1]);
+    const ea = 1 / (1 + Math.pow(10, (b.r - a.r) / 400));
+    const ka = (a.w + a.l) < 6 ? 40 : 24, kb = (b.w + b.l) < 6 ? 40 : 24;
+    a.r += ka * (1 - ea); b.r -= kb * (1 - ea);
+    a.w++; b.l++;
+  }
+  return E;
+}
+const blank = { r: 1500, w: 0, l: 0 };
+const myVotes = () => (cur() ? cur().votes : []);
+
+/* ---------- pairing ---------- */
+function pick(arr, wf) {
+  const ws = arr.map(wf); let t = ws.reduce((a, b) => a + b, 0), r = Math.random() * t;
+  for (let i = 0; i < arr.length; i++) { r -= ws[i]; if (r <= 0) return arr[i]; }
+  return arr[arr.length - 1];
+}
+function nextPair() {
+  const act = activeNames();
+  if (act.length < 2) { S.pair = null; return; }
+  const E = computeElo(myVotes());
+  const st = n => E.get(n.n) || blank;
+  let cand = act;
+  S.topFallback = false;
+  if (S.focus === "top") {
+    const q = act.filter(n => { const s = st(n); return s.w + s.l >= 2; }).sort((a, b) => st(b).r - st(a).r);
+    if (q.length >= 8) cand = q.slice(0, 16); else S.topFallback = true;
+  }
+  const recent = new Set(S.recent);
+  let pickFrom = cand.filter(n => !recent.has(n.n));
+  if (pickFrom.length < 2) pickFrom = cand;
+  const a = pick(pickFrom, n => { const s = st(n); return 1 / Math.pow(1 + s.w + s.l, 2); });
+  const ra = st(a).r;
+  const rest = pickFrom.filter(n => n !== a);
+  const b = pick(rest, n => { const s = st(n); return Math.exp(-Math.abs(s.r - ra) / 120) / (1 + s.w + s.l) + 0.01; });
+  S.pair = Math.random() < 0.5 ? [a, b] : [b, a];
+  S.recent = [...S.recent, a.n, b.n].slice(-4);
+}
+
+/* ---------- people ---------- */
+function selectVoter(id) {
+  S.current = id; lsSet(LS_CURRENT, id || "");
+  S.recent = []; S.confirm = null; nextPair();
+  if (S.rankView !== "all") S.rankView = id;
+  renderAll();
+}
+function addVoter(name) {
+  name = name.trim().replace(/\s+/g, " ").slice(0, 24);
+  if (!name) { $("newvotername").focus(); return; }
+  const existing = voterIds().find(id => key(voterName(id)) === key(name));
+  if (existing) { selectVoter(existing); return; }
+  const id = rid("v");
+  queue({ op: "voter", id, name, vetoes: [], added: [], updated: Date.now() });
+  selectVoter(id);
+}
+function removeVoter(id) {
+  queue({ op: "removeVoter", voter: id });
+  if (S.current === id) selectVoter(null); else renderAll();
+}
+
+/* ---------- actions ---------- */
+let busy = false;
+function vote(side) {
+  if (!S.pair || busy) return;
+  if (!cur()) { $("newvotername").focus(); return; }
+  const w = S.pair[side], l = S.pair[1 - side];
+  queue({ op: "vote", vid: rid("p"), voter: S.current, w: w.n, l: l.n, t: Date.now() });
+  const card = $("c" + side);
+  const reduce = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
+  busy = true; card.classList.add("won");
+  setTimeout(() => { card.classList.remove("won"); busy = false; nextPair(); renderDuel(); }, reduce ? 0 : 220);
+}
+function skip() { if (busy) return; nextPair(); renderDuel(); }
+function undo() {
+  const v = cur(); if (!v || !v.votes.length) return;
+  const last = v.votes[v.votes.length - 1];
+  queue({ op: "unvote", vid: last[3] });
+  const P = pool(); const f = n => P.find(p => p.n === n);
+  const a = f(last[0]), b = f(last[1]);
+  if (a && b) S.pair = [a, b]; else nextPair();
+  renderDuel();
+}
+function toggleVeto(n) {
+  const v = cur(); if (!v) return;
+  const k = key(n), set = new Set(v.vetoes || []);
+  set.has(k) ? set.delete(k) : set.add(k);
+  queue(voterOp(S.current, { vetoes: [...set] }));
+  if (S.pair && S.pair.some(p => key(p.n) === k)) nextPair();
+  renderAll();
+}
+function addName(n, m) {
+  const v = cur();
+  if (!v) return "Choose who's picking on the Duel tab first, so the name shows who added it.";
+  n = n.trim().replace(/\s+/g, " "); m = m.trim();
+  if (!n) return "Type a name first.";
+  n = n.charAt(0).toLocaleUpperCase("tr") + n.slice(1);
+  if (pool().some(p => key(p.n) === key(n))) return n + " is already on the list.";
+  queue(voterOp(S.current, { added: [...(v.added || []), [n, m]] }));
+  renderAll();
+  return n + " is in. It will show up in duels soon.";
+}
+function removeAdded(id, n) {
+  const v = S.voters[id]; if (!v) return;
+  queue(voterOp(id, { added: (v.added || []).filter(a => key(a[0]) !== key(n)) }));
+  if (S.pair && S.pair.some(p => p.n === n)) nextPair();
+  renderAll();
+}
+function clearPicks() {
+  if (!cur()) return;
+  queue({ op: "clear", voter: S.current, t: Date.now() });
+  nextPair(); S.confirm = null; renderAll();
+}
+
+/* ---------- sync display ---------- */
+function setSync(state, text) { S.syncState = state; S.syncText = text; const el = $("sync"); el.dataset.state = state; el.textContent = text; }
+
+/* ---------- rendering ---------- */
+function renderVoters() {
+  const seg = $("voterseg"); seg.textContent = "";
+  for (const id of voterIds()) {
+    const b = document.createElement("button"); b.textContent = voterName(id);
+    b.setAttribute("aria-pressed", S.current === id);
+    b.onclick = () => selectVoter(id); seg.append(b);
+  }
+  $("newvotername").placeholder = voterIds().length ? "Add a person" : "Type your name to start";
+}
+function renderDuel() {
+  renderVoters();
+  const v = cur();
+  const E = computeElo(myVotes());
+  for (let i = 0; i < 2; i++) {
+    const c = $("c" + i), p = v && S.pair && S.pair[i];
+    c.disabled = !p;
+    const nmText = !v ? (i ? "names" : "Choose who's") : (p ? p.n : "No names left");
+    const meanText = !v ? (i ? "Then the duels begin." : "Pick your name above, or add it.") : (p ? (p.m || "Meaning not added") : "Bring some names back in the Names tab.");
+    c.querySelector(".nm").textContent = nmText;
+    c.querySelector(".mean").textContent = meanText;
+    const s = p ? (E.get(p.n) || blank) : blank;
+    c.querySelector(".rec").textContent = !p ? "" : (s.w + s.l === 0 ? "First duel" : `Won ${s.w}, lost ${s.l}`);
+    c.setAttribute("aria-label", p ? `Pick ${p.n}` : "No name");
+  }
+  $("undo").disabled = !v || v.votes.length === 0;
+  $("skip").disabled = !v;
+  const act = activeNames();
+  const seen = act.filter(n => E.has(n.n)).length;
+  $("bar").style.width = (act.length ? (100 * seen / act.length) : 0) + "%";
+  const picks = myVotes().length;
+  $("covtext").textContent = v
+    ? `${seen} of ${act.length} names have been in ${possessive(v.name)} duels. ${picks} ${picks === 1 ? "pick" : "picks"} so far.`
+    : `${act.length} names waiting.`;
+  $("f-all").setAttribute("aria-pressed", S.focus === "all");
+  $("f-top").setAttribute("aria-pressed", S.focus === "top");
+  $("focusnote").textContent = S.focus === "top"
+    ? (S.topFallback ? "Top contenders starts once eight names have had two duels each. Until then you get all names." : "Pairing only the current top sixteen, to settle the order at the top.")
+    : "New names come up first, then each name meets others with a similar rating.";
+  $("podiumlabel").textContent = v ? `${possessive(v.name)} top five so far` : "Top five so far";
+  const top = act.map(n => ({ n: n.n, s: E.get(n.n) })).filter(x => x.s && x.s.w + x.s.l > 0).sort((a, b) => b.s.r - a.s.r).slice(0, 5);
+  const pod = $("podium"); pod.textContent = "";
+  if (!top.length) { const li = document.createElement("li"); li.style.background = "transparent"; li.style.padding = "0"; li.className = "note"; li.textContent = "Favourites appear here after a few picks."; pod.append(li); }
+  for (const t of top) {
+    const li = document.createElement("li");
+    const b = document.createElement("b"); b.lang = "tr"; b.textContent = t.n;
+    const sp = document.createElement("span"); sp.textContent = Math.round(t.s.r);
+    li.append(b, sp); pod.append(li);
+  }
+}
+
+function th(text, cls) { const e = document.createElement("th"); e.textContent = text; if (cls) e.className = cls; return e; }
+function renderRank() {
+  const withVotes = voterIds().filter(id => S.voters[id].votes.length);
+  if (!S.rankView || (S.rankView !== "all" && !S.voters[S.rankView])) S.rankView = withVotes.length > 1 ? "all" : (S.current || withVotes[0] || "all");
+  const views = $("rankviews"); views.textContent = "";
+  const mk = (v, text) => { const b = document.createElement("button"); b.textContent = text; b.setAttribute("aria-pressed", S.rankView === v); b.onclick = () => { S.rankView = v; renderRank(); }; views.append(b); };
+  mk("all", "Everyone");
+  for (const id of voterIds()) mk(id, voterName(id));
+
+  const all = S.rankView === "all";
+  const ids = all ? withVotes : [S.rankView];
+  const votes = ids.map(id => S.voters[id].votes).flat().slice().sort((a, b) => a[2] - b[2]);
+  const E = computeElo(votes);
+  const vetoCount = new Map();
+  for (const id of ids) for (const k of (S.voters[id].vetoes || [])) vetoCount.set(k, (vetoCount.get(k) || 0) + 1);
+
+  // each voter's own rank of each name, for the side-by-side report
+  const personal = all ? withVotes.map(id => {
+    const e = computeElo(S.voters[id].votes);
+    const order = [...e.entries()].sort((a, b) => b[1].r - a[1].r).map(x => x[0]);
+    return { id, rank: new Map(order.map((n, i) => [n, i + 1])) };
+  }) : [];
+
+  let P = pool();
+  if (!all) { const out = new Set(S.voters[S.rankView].vetoes || []); P = P.filter(p => !out.has(key(p.n))); }
+  const rows = P.map(p => ({ p, s: E.get(p.n) })).filter(r => r.s).sort((a, b) => b.s.r - a.s.r);
+  const unseen = P.length - rows.length;
+  $("ranksum").textContent = `${votes.length} ${votes.length === 1 ? "pick" : "picks"}` + (all ? ` from ${ids.length} ${ids.length === 1 ? "person" : "people"}` : "");
+
+  const head = $("rankthead"); head.textContent = "";
+  const hr = document.createElement("tr");
+  hr.append(th("#"), th("Name"), th("Rating", "num"), th("Won–lost", "num"));
+  for (const x of personal) hr.append(th(voterName(x.id), "vr"));
+  head.append(hr);
+
+  const body = $("rankbody"); body.textContent = "";
+  if (!rows.length) {
+    const tr = document.createElement("tr"); const td = document.createElement("td"); td.colSpan = 4 + personal.length; td.className = "note";
+    td.textContent = "No picks yet. Head to the Duel tab and the ranking fills in as you go."; tr.append(td); body.append(tr);
+  }
+  rows.forEach((r, i) => {
+    const tr = document.createElement("tr");
+    const games = r.s.w + r.s.l;
+    if (i < 3 && games >= 3) tr.className = "top3";
+    if (games < 3) tr.classList.add("thin");
+    const td0 = document.createElement("td"); td0.className = "pos"; td0.textContent = i + 1;
+    const td1 = document.createElement("td");
+    const nm = document.createElement("div"); nm.className = "rn"; nm.lang = "tr"; nm.textContent = r.p.n;
+    if (games < 3) { const c = document.createElement("span"); c.className = "chip"; c.textContent = "few duels"; nm.append(c); }
+    const vn = vetoCount.get(key(r.p.n));
+    if (vn) { const c = document.createElement("span"); c.className = "chip warn"; c.textContent = all ? `taken out by ${vn}` : "taken out"; nm.append(c); }
+    const mm = document.createElement("div"); mm.className = "rm"; mm.textContent = r.p.m;
+    td1.append(nm, mm);
+    const td2 = document.createElement("td"); td2.className = "num"; td2.textContent = Math.round(r.s.r);
+    const td3 = document.createElement("td"); td3.className = "num"; td3.textContent = `${r.s.w}–${r.s.l}`;
+    tr.append(td0, td1, td2, td3);
+    for (const x of personal) {
+      const td = document.createElement("td"); td.className = "vr";
+      const rk = x.rank.get(r.p.n);
+      td.textContent = rk ? rk : "·";
+      if (rk && rk <= 3) td.classList.add("best");
+      tr.append(td);
+    }
+    body.append(tr);
+  });
+  const who = all ? "anyone's" : possessive(voterName(S.rankView));
+  $("rankfoot").textContent = (unseen ? `${unseen} more ${unseen === 1 ? "name has" : "names have"} not been in ${who} duels yet. ` : "") +
+    (all && personal.length ? "The columns on the right show where each person ranks that name on their own. " : "") +
+    "Everyone starts at 1500. Beating a higher-rated name moves you up more than beating a lower one. Faded rows have fewer than three duels, so their rating is still a guess.";
+}
+
+function renderNames() {
+  const q = key($("search").value.trim());
+  const P = pool();
+  const v = cur();
+  const out = new Set((v && v.vetoes) || []);
+  const list = $("namelist"); list.textContent = "";
+  const shown = P.filter(p => !q || key(p.n).includes(q) || key(p.m).includes(q));
+  $("namecount").textContent = v ? `${P.length} names, ${P.filter(p => !out.has(key(p.n))).length} in ${possessive(v.name)} duels` : `${P.length} names`;
+  $("vetonote").textContent = v
+    ? `Take a name out and it stops appearing in ${possessive(v.name)} duels. Everyone else still sees it.`
+    : "Choose who's picking on the Duel tab to take names out of their duels.";
+  for (const p of shown) {
+    const li = document.createElement("li");
+    const isOut = out.has(key(p.n)); if (isOut) li.className = "out";
+    const txt = document.createElement("div"); txt.className = "txt";
+    const nm = document.createElement("div"); nm.className = "rn"; nm.lang = "tr"; nm.textContent = p.n;
+    if (p.by) { const c = document.createElement("span"); c.className = "chip"; c.textContent = `added by ${voterName(p.by)}`; nm.append(c); }
+    const mm = document.createElement("div"); mm.className = "rm"; mm.textContent = p.m || "";
+    txt.append(nm, mm);
+    const acts = document.createElement("div"); acts.className = "acts";
+    if (v) { const t = document.createElement("button"); t.className = "mini"; t.textContent = isOut ? "Bring back" : "Take out"; t.onclick = () => toggleVeto(p.n); acts.append(t); }
+    if (p.by) { const d = document.createElement("button"); d.className = "mini"; d.textContent = "Delete"; d.onclick = () => removeAdded(p.by, p.n); acts.append(d); }
+    li.append(txt, acts); list.append(li);
+  }
+  if (!shown.length) { const li = document.createElement("li"); li.className = "note"; li.textContent = "No names match that search."; list.append(li); }
+  renderReset();
+}
+function renderReset() {
+  const box = $("resetbox"); box.textContent = "";
+  const v = cur();
+  if (!v) { const s = document.createElement("span"); s.className = "note"; s.textContent = "Choose who's picking on the Duel tab to clear their picks or remove them."; box.append(s); return; }
+  const n = v.votes.length;
+  if (S.confirm === "clear" || S.confirm === "remove") {
+    const s = document.createElement("span");
+    s.textContent = S.confirm === "clear" ? `This deletes all ${n} of ${possessive(v.name)} picks for good.` : `This removes ${v.name} and all ${n} of their picks for good.`;
+    const y = document.createElement("button"); y.className = "btn danger";
+    y.textContent = S.confirm === "clear" ? "Delete the picks" : `Remove ${v.name}`;
+    y.onclick = () => { if (S.confirm === "clear") clearPicks(); else { S.confirm = null; removeVoter(S.current); } };
+    const k = document.createElement("button"); k.className = "btn"; k.textContent = "Cancel"; k.onclick = () => { S.confirm = null; renderReset(); };
+    box.append(s, y, k); return;
+  }
+  const c = document.createElement("button"); c.className = "btn danger"; c.textContent = `Clear ${possessive(v.name)} picks`; c.disabled = n === 0;
+  c.onclick = () => { S.confirm = "clear"; renderReset(); };
+  const r = document.createElement("button"); r.className = "btn danger"; r.textContent = `Remove ${v.name}`;
+  r.onclick = () => { S.confirm = "remove"; renderReset(); };
+  const s = document.createElement("span"); s.className = "note"; s.textContent = n ? `${v.name} has ${n} ${n === 1 ? "pick" : "picks"}.` : `${v.name} has no picks yet.`;
+  box.append(c, r, s);
+}
+function renderTabs() {
+  for (const t of ["duel", "rank", "names"]) {
+    $("t-" + t).setAttribute("aria-selected", S.tab === t);
+    $("tab-" + t).hidden = S.tab !== t;
+  }
+}
+function renderAll() { renderTabs(); renderDuel(); if (S.tab === "rank") renderRank(); if (S.tab === "names") renderNames(); }
+
+/* ---------- events ---------- */
+$("c0").onclick = () => vote(0);
+$("c1").onclick = () => vote(1);
+$("skip").onclick = skip;
+$("undo").onclick = undo;
+$("newvoter").onsubmit = e => { e.preventDefault(); addVoter($("newvotername").value); $("newvotername").value = ""; };
+for (const b of document.querySelectorAll("[data-tab]")) b.onclick = () => { S.tab = b.dataset.tab; S.confirm = null; renderAll(); };
+for (const b of document.querySelectorAll("[data-focus]")) b.onclick = () => { S.focus = b.dataset.focus; S.recent = []; nextPair(); renderDuel(); };
+$("search").oninput = () => renderNames();
+$("addform").onsubmit = e => { e.preventDefault(); const msg = addName($("addname").value, $("addmean").value); $("addmsg").textContent = msg; if (/is in\./.test(msg)) { $("addname").value = ""; $("addmean").value = ""; } };
+document.addEventListener("keydown", e => {
+  if (S.tab !== "duel" || e.target.closest("input")) return;
+  if (e.key === "ArrowLeft") { e.preventDefault(); vote(0); }
+  else if (e.key === "ArrowRight") { e.preventDefault(); vote(1); }
+  else if (e.key === " ") { e.preventDefault(); skip(); }
+  else if (e.key === "z" || e.key === "Z" || e.key === "Backspace") { e.preventDefault(); undo(); }
+});
+
+/* ---------- start ---------- */
+let renderTimer = null;
+function renderSoon() { clearTimeout(renderTimer); renderTimer = setTimeout(() => { renderDuel(); if (S.tab === "rank") renderRank(); if (S.tab === "names") renderNames(); }, 80); }
+function start() {
+  rebuild(); nextPair(); renderAll();
+  if (API_URL.startsWith("PASTE")) { hideGate(); setSync("warn", "Not connected to a sheet yet"); return; }
+  startPolling();
+  if (!S.password) { lockOut(""); return; }
+  hideGate(); setSync("saving", "Loading picks from the sheet");
+  flush(true);
+}
+start();
+</script>
+</body>
+</html>
