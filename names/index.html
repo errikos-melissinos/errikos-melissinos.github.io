@@ -286,13 +286,13 @@ h1 { font-size: 1.15rem; margin: 0; letter-spacing: -0.01em; }
       <button class="card" id="c0" aria-label="Pick left name">
         <span class="namebox"><span class="nm" lang="tr"></span><span class="pron"></span></span>
         <span class="mean"></span>
-        <span class="cardfoot"><span class="rec"></span><span class="kbd">←</span></span>
+        <span class="cardfoot"><span class="kbd">←</span></span>
       </button>
       <div class="vs" aria-hidden="true"><div class="star"><span>VS</span></div></div>
       <button class="card" id="c1" aria-label="Pick right name">
         <span class="namebox"><span class="nm" lang="tr"></span><span class="pron"></span></span>
         <span class="mean"></span>
-        <span class="cardfoot"><span class="rec"></span><span class="kbd">→</span></span>
+        <span class="cardfoot"><span class="kbd">→</span></span>
       </button>
     </div>
     <div class="controls">
@@ -1026,7 +1026,6 @@ function renderDuel() {
     c.querySelector(".nm").lang = loc();
     c.querySelector(".pron").textContent = v && p ? sayIt(p) : "";
     const s = p ? (E.get(p.n) || blank) : blank;
-    c.querySelector(".rec").textContent = !p ? "" : (s.w + s.l === 0 ? "First duel" : `Won ${s.w}, lost ${s.l}`);
     c.setAttribute("aria-label", p ? `Pick ${p.n}` : "No name");
   }
   $("undo").disabled = !v || v.votes.length === 0;
