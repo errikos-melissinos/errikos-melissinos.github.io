@@ -183,6 +183,11 @@ td.vr.best { color: var(--turq); font-weight: 600; }
 .namebox { display: grid; gap: 8px; }
 .pron { font-family: var(--font-mono); font-size: 0.82rem; color: var(--cobalt); letter-spacing: 0.02em; overflow-wrap: anywhere; }
 .rp { font-family: var(--font-mono); font-size: 0.75rem; color: var(--cobalt); }
+.endless { max-width: 44rem; margin-inline: auto; background: var(--cobalt-soft); border-radius: 10px; padding: 12px 16px; display: grid; gap: 6px; text-align: center; font-size: 0.9rem; text-wrap: pretty; }
+.endless p { margin: 0; }
+.endless strong { color: var(--cobalt); }
+#milestone { color: var(--muted); }
+#milestone:empty { display: none; }
 #pronkey { max-width: 44rem; margin-inline: auto; text-wrap: pretty; }
 </style>
 </head>
@@ -248,6 +253,10 @@ td.vr.best { color: var(--turq); font-weight: 600; }
     <div class="controls">
       <button class="btn" id="skip">Can't decide</button>
       <button class="btn" id="undo">Undo last pick</button>
+    </div>
+    <div class="endless" role="note">
+      <p><strong>Heads up, this never ends.</strong> There's no last pick. New pairs keep coming for as long as you like, and every pick only nudges the ranking a little. Your picks are saved, so stop whenever you want and come back later.</p>
+      <p id="milestone"></p>
     </div>
     <p class="hint">On a keyboard, ← and → pick, space skips, Z undoes.</p>
     <p class="hint" id="pronkey"></p>
@@ -979,6 +988,13 @@ function renderDuel() {
   const seen = act.filter(n => E.has(n.n)).length;
   $("bar").style.width = (act.length ? (100 * seen / act.length) : 0) + "%";
   const picks = myVotes().length;
+  const perName = act.length ? (2 * picks) / act.length : 0;
+  const toNext = need => Math.max(1, Math.ceil((need * act.length) / 2) - picks);
+  $("milestone").textContent = !v ? "" :
+    perName < 1 ? `Getting started. Every name comes up at least once before repeats, about ${toNext(1)} more picks.` :
+    perName < 3 ? `A rough ranking is forming. About ${toNext(3)} more picks and it will be fairly steady.` :
+    perName < 6 ? `Fairly settled now. Switching to Top contenders sorts out the order at the top, or about ${toNext(6)} more picks settles everything.` :
+    "Well settled. More picks will mostly reshuffle the top few, so this is a good place to stop.";
   $("covtext").textContent = v
     ? `${seen} of ${act.length} names have been in ${possessive(v.name)} duels. ${picks} ${picks === 1 ? "pick" : "picks"} so far.`
     : `${act.length} names waiting.`;
