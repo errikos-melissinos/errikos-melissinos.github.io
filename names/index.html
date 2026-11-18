@@ -178,6 +178,12 @@ td.vr.best { color: var(--turq); font-weight: 600; }
 .topright { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
 .linkbtn { border: 0; background: none; padding: 0; color: var(--muted); font-size: 0.82rem; text-decoration: underline; text-underline-offset: 3px; }
 .linkbtn:hover { color: var(--ink); }
+.listbar { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; }
+.listbar .eyebrow { margin: 0; }
+.namebox { display: grid; gap: 8px; }
+.pron { font-family: var(--font-mono); font-size: 0.82rem; color: var(--cobalt); letter-spacing: 0.02em; overflow-wrap: anywhere; }
+.rp { font-family: var(--font-mono); font-size: 0.75rem; color: var(--cobalt); }
+#pronkey { max-width: 44rem; margin-inline: auto; text-wrap: pretty; }
 </style>
 </head>
 <body>
@@ -197,10 +203,19 @@ td.vr.best { color: var(--turq); font-weight: 600; }
   <header class="top">
     <div class="brand">
       <h1>Boy Name Duel</h1>
-      <p class="sub">Pick the name you like more. Every pick updates an Elo rating, the way chess players are ranked, so the best names rise without anyone sorting a list of 180.</p>
+      <p class="sub">Pick the name you like more. Every pick updates an Elo rating, the way chess players are ranked, so the best names rise without anyone sorting a long list.</p>
     </div>
     <div class="topright"><div class="sync" id="sync" data-state="idle">Connecting</div><button class="linkbtn" id="signout" type="button">Sign out</button></div>
   </header>
+
+  <div class="listbar">
+    <span class="eyebrow">Names</span>
+    <div class="seg" id="listseg" role="group" aria-label="Which names">
+      <button data-list="tr" aria-pressed="true">Turkish</button>
+      <button data-list="gr" aria-pressed="false">Greek</button>
+    </div>
+    <span class="note" id="listnote"></span>
+  </div>
 
   <nav class="tabs" role="tablist" aria-label="Views">
     <button role="tab" id="t-duel" data-tab="duel" aria-selected="true">Duel</button>
@@ -219,13 +234,13 @@ td.vr.best { color: var(--turq); font-weight: 600; }
     </div>
     <div class="arena">
       <button class="card" id="c0" aria-label="Pick left name">
-        <span><span class="nm" lang="tr"></span></span>
+        <span class="namebox"><span class="nm" lang="tr"></span><span class="pron"></span></span>
         <span class="mean"></span>
         <span class="cardfoot"><span class="rec"></span><span class="kbd">←</span></span>
       </button>
       <div class="vs" aria-hidden="true"><div class="star"><span>VS</span></div></div>
       <button class="card" id="c1" aria-label="Pick right name">
-        <span><span class="nm" lang="tr"></span></span>
+        <span class="namebox"><span class="nm" lang="tr"></span><span class="pron"></span></span>
         <span class="mean"></span>
         <span class="cardfoot"><span class="rec"></span><span class="kbd">→</span></span>
       </button>
@@ -235,6 +250,7 @@ td.vr.best { color: var(--turq); font-weight: 600; }
       <button class="btn" id="undo">Undo last pick</button>
     </div>
     <p class="hint">On a keyboard, ← and → pick, space skips, Z undoes.</p>
+    <p class="hint" id="pronkey"></p>
     <div class="panel">
       <div class="duelmeta">
         <div class="cov">
@@ -295,198 +311,348 @@ td.vr.best { color: var(--turq); font-weight: 600; }
 
 <script>
 
-const BASE_TEXT = `Ahmet|Most praised
-Alaz|Flame
-Ali|Exalted, high
-Alp|Brave, a hero
-Alparslan|Brave lion, a Seljuk sultan
-Alper|Brave man
-Alperen|Hero and saint
-Arda|A river that flows through Bulgaria, Greece and Turkey
-Aras|A river in eastern Anatolia
-Arif|Wise, knowing
-Arın|Pure, clean
-Asil|Noble
-Aslan|Lion
-Ata|Ancestor, forefather
-Atakan|Of noble ancestry
-Ateş|Fire
-Atlas|The titan who holds up the sky
-Ayaz|Clear, frosty night air
-Aybars|Moon panther
-Ayberk|Moon and strength
-Aydın|Bright, enlightened
-Ayhan|Moon khan
-Aykut|Blessed moon
-Bahadır|Brave, valiant
-Baran|Rain
-Barlas|Brave warrior
-Barış|Peace
-Batu|Firm, strong
-Batuhan|Strong khan
-Baturalp|Brave hero
-Berat|Innocence, also a holy night
-Berk|Solid, firm
-Berkay|Strong moon
-Berke|Firm, strong
-Bilge|Wise
-Bora|Storm, a strong north wind
-Bulut|Cloud
-Burak|Lightning, the winged steed of legend
-Bülent|Lofty, high
-Can|Soul, life, dear one
-Cem|Gathering, also a legendary Persian king
-Cemal|Beauty
-Cengiz|From Genghis, the great ruler
-Cenk|Battle
-Cihan|The world
-Çağatay|A son of Genghis Khan
-Çağlar|Ages, eras
-Çağrı|A call, an invitation
-Çınar|Plane tree, a symbol of long life
-Davut|David
-Demir|Iron
-Deniz|Sea
-Dinç|Vigorous, robust
-Doruk|Summit, peak
-Doğan|Falcon
-Doğukan|Khan of the east
-Efe|Brave young man, elder brother
-Ege|The Aegean
-Egemen|Sovereign
-Ekin|Harvest, crops
-Emir|Commander, prince
-Emirhan|Commander and khan
-Emre|Friend, lover, as in Yunus Emre
-Ender|Rare
-Enes|Friendly companion
-Engin|Vast, open
-Erdem|Virtue
-Eren|Saint, one who has reached wisdom
-Erkan|Brave, of strong blood
-Erkin|Free, independent
-Erol|Be a man, be brave
-Ertuğrul|Man and falcon, father of Osman I
-Evren|The universe
-Eymen|Blessed, fortunate
-Eyüp|Job
-Faruk|One who tells right from wrong
-Fatih|Conqueror
-Furkan|The distinction between right and wrong
-Gökay|Sky moon
-Gökhan|Sky khan
-Göktuğ|Banner of the sky
-Görkem|Splendour
-Gürkan|Strong-blooded
-Hakan|Khan of khans, emperor
-Halil|Close friend
-Halit|Eternal
-Hamza|Lion, strong
-Harun|Aaron
-Hasan|Good, handsome
-Hüseyin|Little good one
-Ilgaz|A mountain range in northern Anatolia
-İbrahim|Abraham
-İlkay|New moon
-İlker|First man
-İlyas|Elijah
-İskender|Alexander
-İsmail|Ishmael, God hears
-Kaan|Ruler, khan
-Kadir|Powerful
-Kartal|Eagle
-Kaya|Rock
-Kayra|Grace, divine favour
-Kağan|Emperor, great khan
-Kemal|Perfection, maturity
-Kenan|Canaan
-Kerem|Generosity, nobility
-Kerim|Generous
-Koray|Ember moon
-Kubilay|Kublai Khan
-Kutay|Blessed moon
-Kuzey|North
-Kıvanç|Pride, joy
-Levent|Tall and handsome, an Ottoman sailor
-Mehmet|Praised
-Mert|Brave and trustworthy man
-Mertcan|Brave soul
-Mete|A Hun ruler, founder of the first Turkic state
-Metin|Firm, solid
-Miraç|Ascension
-Mirza|Prince, nobleman
-Murat|Wish, desire
-Musa|Moses
-Mustafa|The chosen one
-Nazım|One who arranges, a poet
-Nuh|Noah
-Okan|Understanding, clever
-Onur|Honour
-Orhan|Great khan, an Ottoman sultan
-Orkun|The Orkhon river, home of the oldest Turkic inscriptions
-Ozan|Bard, minstrel
-Oğuz|The legendary Turkic ancestor
-Oğuzhan|Oghuz Khan
-Ömer|Long life
-Özgür|Free
-Polat|Steel
-Poyraz|The north-east wind, Boreas in Greek
-Rüzgar|Wind
-Rıza|Contentment, consent
-Sarp|Steep, hard to conquer
-Selim|Safe, sound
-Selçuk|The Seljuk dynasty
-Serdar|Commander
-Serkan|Leader, head of khans
-Sinan|Spearhead, as in Mimar Sinan
-Şahin|Falcon
-Taha|A sura of the Quran
-Tan|Dawn
-Taner|Man of dawn
-Tarık|Morning star
-Tayfun|Typhoon
-Taylan|Tall, slender, handsome
-Tekin|Prince
-Timur|Iron
-Tolga|Helmet
-Tolunay|Full moon
-Toprak|Earth, soil
-Tuna|The Danube
-Tunahan|Khan of the Danube
-Tuncay|Bronze moon
-Turan|Homeland of the Turks
-Tunç|Bronze
-Tuğrul|Bird of prey
-Ufuk|Horizon
-Ulaş|To reach, to arrive
-Umut|Hope
-Uras|Luck, fortune
-Utku|Victory
-Uygar|Civilised
-Uğur|Good luck
-Volkan|Volcano
-Yahya|John
-Yakup|Jacob
-Yalçın|Steep, sheer
-Yalın|Pure, simple, also flame
-Yaman|Capable, strong
-Yavuz|Stern, formidable
-Yağız|Brave, dark-complexioned
-Yekta|Unique, one of a kind
-Yiğit|Brave young man
-Yunus|Jonah
-Yusuf|Joseph
-Yücel|Exalted
-Zafer|Victory
-Ziya|Light`;
-const BASE = BASE_TEXT.split("\n").map(l => { const [n, m] = l.split("|"); return { n: n.trim(), m: (m || "").trim() }; });
+const TR_TEXT = `Ahmet|Most praised|ah-MET
+Alaz|Flame|ah-LAHZ
+Ali|Exalted, high|ah-LEE
+Alp|Brave, a hero|AHLP
+Alparslan|Brave lion, a Seljuk sultan|ahl-pars-LAHN
+Alper|Brave man|ahl-PER
+Alperen|Hero and saint|ahl-peh-REN
+Arda|A river that flows through Bulgaria, Greece and Turkey|ar-DAH
+Aras|A river in eastern Anatolia|ah-RAHS
+Arif|Wise, knowing|ah-REEF
+Arın|Pure, clean|ah-RUHN
+Asil|Noble|ah-SEEL
+Aslan|Lion|ahs-LAHN
+Ata|Ancestor, forefather|ah-TAH
+Atakan|Of noble ancestry|ah-tah-KAHN
+Ateş|Fire|ah-TESH
+Atlas|The titan who holds up the sky|aht-LAHS
+Ayaz|Clear, frosty night air|ah-YAHZ
+Aybars|Moon panther|eye-BARS
+Ayberk|Moon and strength|eye-BERK
+Aydın|Bright, enlightened|eye-DUHN
+Ayhan|Moon khan|eye-HAHN
+Aykut|Blessed moon|eye-KOOT
+Bahadır|Brave, valiant|bah-hah-DUHR
+Baran|Rain|bah-RAHN
+Barlas|Brave warrior|bar-LAHS
+Barış|Peace|bah-RUHSH
+Batu|Firm, strong|bah-TOO
+Batuhan|Strong khan|bah-too-HAHN
+Baturalp|Brave hero|bah-too-RAHLP
+Berat|Innocence, also a holy night|beh-RAHT
+Berk|Solid, firm|BERK
+Berkay|Strong moon|ber-KYE
+Berke|Firm, strong|ber-KEH
+Bilge|Wise|beel-GEH
+Bora|Storm, a strong north wind|boh-RAH
+Bulut|Cloud|boo-LOOT
+Burak|Lightning, the winged steed of legend|boo-RAHK
+Bülent|Lofty, high|bew-LENT
+Can|Soul, life, dear one|JAHN
+Cem|Gathering, also a legendary Persian king|JEM
+Cemal|Beauty|jeh-MAHL
+Cengiz|From Genghis, the great ruler|jen-GEEZ
+Cenk|Battle|JENK
+Cihan|The world|jee-HAHN
+Çağatay|A son of Genghis Khan|chah-ah-TYE
+Çağlar|Ages, eras|chah-LAR
+Çağrı|A call, an invitation|chah-RUH
+Çınar|Plane tree, a symbol of long life|chuh-NAR
+Davut|David|dah-VOOT
+Demir|Iron|deh-MEER
+Deniz|Sea|deh-NEEZ
+Dinç|Vigorous, robust|DEENCH
+Doruk|Summit, peak|doh-ROOK
+Doğan|Falcon|doh-AHN
+Doğukan|Khan of the east|doh-oo-KAHN
+Efe|Brave young man, elder brother|eh-FEH
+Ege|The Aegean|eh-GEH
+Egemen|Sovereign|eh-geh-MEN
+Ekin|Harvest, crops|eh-KEEN
+Emir|Commander, prince|eh-MEER
+Emirhan|Commander and khan|eh-meer-HAHN
+Emre|Friend, lover, as in Yunus Emre|em-REH
+Ender|Rare|en-DER
+Enes|Friendly companion|eh-NES
+Engin|Vast, open|en-GEEN
+Erdem|Virtue|er-DEM
+Eren|Saint, one who has reached wisdom|eh-REN
+Erkan|Brave, of strong blood|er-KAHN
+Erkin|Free, independent|er-KEEN
+Erol|Be a man, be brave|eh-ROL
+Ertuğrul|Man and falcon, father of Osman I|er-too-ROOL
+Evren|The universe|ev-REN
+Eymen|Blessed, fortunate|ay-MEN
+Eyüp|Job|eh-YEWP
+Faruk|One who tells right from wrong|fah-ROOK
+Fatih|Conqueror|fah-TEEH
+Furkan|The distinction between right and wrong|foor-KAHN
+Gökay|Sky moon|gur-KYE
+Gökhan|Sky khan|gurk-HAHN
+Göktuğ|Banner of the sky|gurk-TOO
+Görkem|Splendour|gur-KEM
+Gürkan|Strong-blooded|gewr-KAHN
+Hakan|Khan of khans, emperor|hah-KAHN
+Halil|Close friend|hah-LEEL
+Halit|Eternal|hah-LEET
+Hamza|Lion, strong|hahm-ZAH
+Harun|Aaron|hah-ROON
+Hasan|Good, handsome|hah-SAHN
+Hüseyin|Little good one|hew-seh-YEEN
+Ilgaz|A mountain range in northern Anatolia|uhl-GAHZ
+İbrahim|Abraham|eeb-rah-HEEM
+İlkay|New moon|eel-KYE
+İlker|First man|eel-KER
+İlyas|Elijah|eel-YAHS
+İskender|Alexander|ees-ken-DER
+İsmail|Ishmael, God hears|ees-mah-EEL
+Kaan|Ruler, khan|kah-AHN
+Kadir|Powerful|kah-DEER
+Kartal|Eagle|kar-TAHL
+Kaya|Rock|kah-YAH
+Kayra|Grace, divine favour|kye-RAH
+Kağan|Emperor, great khan|kah-AHN
+Kemal|Perfection, maturity|keh-MAHL
+Kenan|Canaan|keh-NAHN
+Kerem|Generosity, nobility|keh-REM
+Kerim|Generous|keh-REEM
+Koray|Ember moon|koh-RYE
+Kubilay|Kublai Khan|koo-bee-LYE
+Kutay|Blessed moon|koo-TYE
+Kuzey|North|koo-ZAY
+Kıvanç|Pride, joy|kuh-VAHNCH
+Levent|Tall and handsome, an Ottoman sailor|leh-VENT
+Mehmet|Praised|meh-MET
+Mert|Brave and trustworthy man|MERT
+Mertcan|Brave soul|mert-JAHN
+Mete|A Hun ruler, founder of the first Turkic state|meh-TEH
+Metin|Firm, solid|meh-TEEN
+Miraç|Ascension|mee-RAHCH
+Mirza|Prince, nobleman|meer-ZAH
+Murat|Wish, desire|moo-RAHT
+Musa|Moses|moo-SAH
+Mustafa|The chosen one|moos-tah-FAH
+Nazım|One who arranges, a poet|nah-ZUHM
+Nuh|Noah|NOOH
+Okan|Understanding, clever|oh-KAHN
+Onur|Honour|oh-NOOR
+Orhan|Great khan, an Ottoman sultan|or-HAHN
+Orkun|The Orkhon river, home of the oldest Turkic inscriptions|or-KOON
+Ozan|Bard, minstrel|oh-ZAHN
+Oğuz|The legendary Turkic ancestor|oh-OOZ
+Oğuzhan|Oghuz Khan|oh-ooz-HAHN
+Ömer|Long life|ur-MER
+Özgür|Free|urz-GEWR
+Polat|Steel|poh-LAHT
+Poyraz|The north-east wind, Boreas in Greek|poy-RAHZ
+Rüzgar|Wind|rewz-GAR
+Rıza|Contentment, consent|ruh-ZAH
+Sarp|Steep, hard to conquer|SARP
+Selim|Safe, sound|seh-LEEM
+Selçuk|The Seljuk dynasty|sel-CHOOK
+Serdar|Commander|ser-DAR
+Serkan|Leader, head of khans|ser-KAHN
+Sinan|Spearhead, as in Mimar Sinan|see-NAHN
+Şahin|Falcon|shah-HEEN
+Taha|A sura of the Quran|tah-HAH
+Tan|Dawn|TAHN
+Taner|Man of dawn|tah-NER
+Tarık|Morning star|tah-RUHK
+Tayfun|Typhoon|tye-FOON
+Taylan|Tall, slender, handsome|tye-LAHN
+Tekin|Prince|teh-KEEN
+Timur|Iron|tee-MOOR
+Tolga|Helmet|tol-GAH
+Tolunay|Full moon|toh-loo-NYE
+Toprak|Earth, soil|top-RAHK
+Tuna|The Danube|too-NAH
+Tunahan|Khan of the Danube|too-nah-HAHN
+Tuncay|Bronze moon|toon-JYE
+Turan|Homeland of the Turks|too-RAHN
+Tunç|Bronze|TOONCH
+Tuğrul|Bird of prey|too-ROOL
+Ufuk|Horizon|oo-FOOK
+Ulaş|To reach, to arrive|oo-LAHSH
+Umut|Hope|oo-MOOT
+Uras|Luck, fortune|oo-RAHS
+Utku|Victory|oot-KOO
+Uygar|Civilised|ooy-GAR
+Uğur|Good luck|oo-OOR
+Volkan|Volcano|vol-KAHN
+Yahya|John|yah-YAH
+Yakup|Jacob|yah-KOOP
+Yalçın|Steep, sheer|yahl-CHUHN
+Yalın|Pure, simple, also flame|yah-LUHN
+Yaman|Capable, strong|yah-MAHN
+Yavuz|Stern, formidable|yah-VOOZ
+Yağız|Brave, dark-complexioned|yah-UHZ
+Yekta|Unique, one of a kind|yek-TAH
+Yiğit|Brave young man|yee-EET
+Yunus|Jonah|yoo-NOOS
+Yusuf|Joseph|yoo-SOOF
+Yücel|Exalted|yew-JEL
+Zafer|Victory|zah-FER
+Ziya|Light|zee-YAH`;
+const GR_TEXT = `Άγγελος|Angelos|AHN-geh-los|Messenger, angel
+Αθανάσιος|Athanasios|ah-thah-NAH-see-os|Immortal
+Αιμίλιος|Aimilios|eh-MEE-lee-os|Eager, rival
+Αίας|Aias|EH-ahs|Ajax, a hero of the Trojan War
+Αλέξανδρος|Alexandros|ah-LEK-sahn-dhros|Defender of people
+Αλέξης|Alexis|ah-LEK-sees|Defender
+Άλκης|Alkis|AHL-kees|Strength
+Αμύντας|Amyntas|ah-MEEN-dahs|Defender
+Αναστάσιος|Anastasios|ah-nah-STAH-see-os|Resurrection
+Ανδρέας|Andreas|ahn-DHREH-ahs|Manly, brave
+Αντώνης|Antonis|ahn-DOH-nees|From the Roman name Antonius
+Απόλλων|Apollon|ah-POH-lon|Apollo, god of light and music
+Απόστολος|Apostolos|ah-POH-stoh-los|Apostle, one who is sent
+Αργύρης|Argyris|ar-YEE-rees|Silver
+Άρης|Aris|AH-rees|Ares, god of war
+Αριστείδης|Aristeidis|ah-rees-TEE-dhees|Son of the best
+Αριστοτέλης|Aristotelis|ah-rees-toh-TEH-lees|The best purpose, after Aristotle
+Αρσένιος|Arsenios|ar-SEH-nee-os|Manly, strong
+Αρχιμήδης|Archimidis|ar-hee-MEE-dhees|Archimedes, master of thought
+Αχιλλέας|Achilleas|ah-hee-LEH-ahs|Achilles, hero of the Iliad
+Βασίλης|Vasilis|vah-SEE-lees|Kingly
+Βύρων|Vyron|VEE-ron|After Lord Byron, the poet who fought for Greece
+Γαβριήλ|Gavriil|ghah-vree-EEL|God is my strength
+Γεράσιμος|Gerasimos|yeh-RAH-see-mos|Honoured, venerable
+Γιάννης|Giannis|YAH-nees|God is gracious
+Γιώργος|Giorgos|YOR-ghos|Farmer, worker of the earth
+Γρηγόρης|Grigoris|ghree-GHOH-rees|Watchful
+Δαμιανός|Damianos|dhah-mee-ah-NOS|Tamer
+Δανιήλ|Daniil|dhah-nee-EEL|God is my judge
+Δημήτρης|Dimitris|dhee-MEE-trees|Devoted to Demeter
+Δημόκριτος|Dimokritos|dhee-MOH-kree-tos|Judge of the people, after the philosopher
+Διογένης|Diogenis|dhee-oh-YEH-nees|Born of Zeus
+Διονύσης|Dionysis|dhee-oh-NEE-sees|Of Dionysus
+Έκτορας|Ektoras|EK-toh-rahs|Hector, the Trojan hero
+Ελευθέριος|Eleftherios|eh-lef-THEH-ree-os|Free
+Εμμανουήλ|Emmanouil|eh-mah-noo-EEL|God with us
+Ερμής|Ermis|er-MEES|Hermes, the messenger god
+Ευάγγελος|Evangelos|eh-VAHN-geh-los|Bearer of good news
+Ευθύμιος|Efthymios|ef-THEE-mee-os|Cheerful
+Ευκλείδης|Efkleidis|ef-KLEE-dhees|Good glory, after Euclid
+Ευριπίδης|Evripidis|ev-ree-PEE-dhees|After Euripides, the playwright
+Ευστάθιος|Efstathios|ef-STAH-thee-os|Steady, well-founded
+Ζαφείρης|Zafeiris|zah-FEE-rees|Sapphire
+Ζαχαρίας|Zacharias|zah-hah-REE-ahs|God remembers
+Ζήνων|Zinon|ZEE-non|Of Zeus
+Ζήσης|Zisis|ZEE-sees|May he live
+Ηλίας|Ilias|ee-LEE-ahs|Elijah
+Ηρακλής|Iraklis|ee-rah-KLEES|Hercules, glory of Hera
+Ηρόδοτος|Irodotos|ee-ROH-dhoh-tos|After Herodotus, the first historian
+Θαλής|Thalis|thah-LEES|After Thales, the first philosopher
+Θεμιστοκλής|Themistoklis|theh-mees-toh-KLEES|Glory of the law
+Θεόδωρος|Theodoros|theh-OH-dhoh-ros|Gift of God
+Θεοφάνης|Theofanis|theh-oh-FAH-nees|God appears
+Θησέας|Thiseas|thee-SEH-ahs|Theseus, slayer of the Minotaur
+Θωμάς|Thomas|thoh-MAHS|Twin
+Ιάκωβος|Iakovos|ee-AH-koh-vos|Jacob
+Ιάσονας|Iasonas|ee-AH-soh-nahs|Jason, leader of the Argonauts
+Ιορδάνης|Iordanis|ee-or-DHAH-nees|The river Jordan
+Ιπποκράτης|Ippokratis|ee-poh-KRAH-tees|After Hippocrates, father of medicine
+Ισίδωρος|Isidoros|ee-SEE-dhoh-ros|Gift of Isis
+Ιωσήφ|Iosif|ee-oh-SEEF|Joseph
+Κίμων|Kimon|KEE-mon|After the Athenian general
+Κλεάνθης|Kleanthis|kleh-AHN-thees|Glory of flowers
+Κοσμάς|Kosmas|koz-MAHS|Order, beauty
+Κυριάκος|Kyriakos|kee-ree-AH-kos|Of the Lord, born on a Sunday
+Κωνσταντίνος|Konstantinos|kon-stahn-DEE-nos|Steadfast
+Λάζαρος|Lazaros|LAH-zah-ros|God has helped
+Λάμπρος|Lambros|LAHM-bros|Bright, shining
+Λέων|Leon|LEH-on|Lion
+Λεωνίδας|Leonidas|leh-oh-NEE-dhahs|Son of the lion, the Spartan king at Thermopylae
+Λουκάς|Loukas|loo-KAHS|Luke
+Λυκούργος|Lykourgos|lee-KOOR-ghos|After the lawgiver of Sparta
+Λύσανδρος|Lysandros|LEE-sahn-dhros|Liberator
+Μάξιμος|Maximos|MAHK-see-mos|Greatest
+Μάριος|Marios|MAH-ree-os|Of Mars, manly
+Μάρκος|Markos|MAR-kos|Mark
+Ματθαίος|Matthaios|mah-THEH-os|Gift of God
+Μελέτης|Meletis|meh-LEH-tees|Careful, diligent
+Μενέλαος|Menelaos|meh-NEH-lah-os|Menelaus, king of Sparta
+Μιλτιάδης|Miltiadis|meel-tee-AH-dhees|After the victor of Marathon
+Μιχάλης|Michalis|mee-HAH-lees|Who is like God
+Μύρων|Myron|MEE-ron|Fragrant oil
+Νεκτάριος|Nektarios|nek-TAH-ree-os|Of nectar
+Νέστορας|Nestoras|NES-toh-rahs|Nestor, the wise king
+Νεόφυτος|Neofytos|neh-OH-fee-tos|Newly planted
+Νικηφόρος|Nikiforos|nee-kee-FOH-ros|Bringer of victory
+Νικήτας|Nikitas|nee-KEE-tahs|Victor
+Νικόδημος|Nikodimos|nee-KOH-dhee-mos|Victory of the people
+Νικόλαος|Nikolaos|nee-KOH-lah-os|Victory of the people
+Ξενοφών|Xenofon|kseh-noh-FON|After the historian Xenophon
+Οδυσσέας|Odysseas|oh-dhee-SEH-ahs|Odysseus, hero of the Odyssey
+Όμηρος|Omiros|OH-mee-ros|Homer
+Ορέστης|Orestis|oh-RES-tees|Of the mountains
+Ορφέας|Orfeas|or-FEH-ahs|Orpheus, the legendary musician
+Παναγιώτης|Panagiotis|pah-nah-YOH-tees|All holy
+Παντελής|Pantelis|pahn-deh-LEES|All-merciful
+Παρασκευάς|Paraskevas|pah-rahs-keh-VAHS|Preparation, born on a Friday
+Πάρις|Paris|PAH-rees|The prince of Troy
+Παύλος|Pavlos|PAHV-los|Small, humble
+Περικλής|Periklis|peh-ree-KLEES|Surrounded by glory
+Περσέας|Perseas|per-SEH-ahs|Perseus, slayer of Medusa
+Πέτρος|Petros|PEH-tros|Rock
+Πλάτων|Platon|PLAH-ton|Broad, after Plato
+Πλούταρχος|Ploutarchos|PLOO-tar-hos|After Plutarch, the biographer
+Πολύβιος|Polyvios|poh-LEE-vee-os|Long life
+Πραξιτέλης|Praxitelis|prahk-see-TEH-lees|After the sculptor Praxiteles
+Προκόπης|Prokopis|proh-KOH-pees|Progress
+Πυθαγόρας|Pythagoras|pee-thah-GHOH-rahs|After Pythagoras
+Ραφαήλ|Rafail|rah-fah-EEL|God heals
+Σάββας|Savvas|SAH-vahs|Sabbath
+Σεραφείμ|Serafeim|seh-rah-FEEM|Seraph, fiery one
+Σόλων|Solon|SOH-lon|After the lawgiver of Athens
+Σπύρος|Spyros|SPEE-ros|After Saint Spyridon
+Σταύρος|Stavros|STAHV-ros|Cross
+Στέφανος|Stefanos|STEH-fah-nos|Crown, wreath
+Στυλιανός|Stylianos|stee-lee-ah-NOS|Pillar
+Σωκράτης|Sokratis|soh-KRAH-tees|Whole power, after Socrates
+Σωτήρης|Sotiris|soh-TEE-rees|Saviour
+Τηλέμαχος|Tilemachos|tee-LEH-mah-hos|Fighting from afar, son of Odysseus
+Τιμόθεος|Timotheos|tee-MOH-theh-os|Honouring God
+Τρύφων|Tryfon|TREE-fon|Gentle
+Φαίδων|Faidon|FEH-dhon|Bright
+Φειδίας|Feidias|fee-DHEE-ahs|After the sculptor of the Parthenon
+Φίλιππος|Filippos|FEE-lee-pos|Lover of horses
+Φιλήμων|Filimon|fee-LEE-mon|Affectionate
+Φοίβος|Foivos|FEE-vos|Bright, a name of Apollo
+Φραγκίσκος|Fragkiskos|frahn-GEES-kos|Francis
+Φώτης|Fotis|FOH-tees|Light
+Χαράλαμπος|Charalambos|hah-RAH-lahm-bos|Shining with joy
+Χαρίλαος|Charilaos|hah-REE-lah-os|Joy of the people
+Χρήστος|Christos|HREES-tos|The anointed one
+Χρύσανθος|Chrysanthos|HREE-sahn-thos|Golden flower
+Χρυσόστομος|Chrysostomos|hree-SOH-stoh-mos|Golden-mouthed`;
+const LISTS = {
+  tr: {
+    label: "Turkish", lang: "tr", prefix: "", hash: "turkish",
+    names: TR_TEXT.split("\n").map(l => { const [n, m, p] = l.split("|"); return { n, m, p }; }),
+    key: "Capitals show the stressed syllable. Turkish stress is light and usually falls on the last syllable. uh is a short, relaxed vowel, ur is said without the r, ew as in few, and a soft ğ just lengthens the vowel before it.",
+  },
+  gr: {
+    label: "Greek", lang: "el", prefix: "gr-", hash: "greek",
+    names: GR_TEXT.split("\n").map(l => { const [n, lat, p, m] = l.split("|"); return { n, lat, p, m }; }),
+    key: "Capitals show the stressed syllable, the one with the accent mark. dh is the th in this, th is the th in thin, gh is a soft g from the back of the throat, and h is a breathy h as in the Scottish loch.",
+  },
+};
 
 const API_URL = "https://script.google.com/macros/s/AKfycbxbkQz3jCFam-JxAJRNtZ6BkFt1w6JyC-TiSCfRbGma3z-klxBJcPu41i6QSImflE8/exec";
 const LS_PW = "nameduel.pw";
 const LS_PENDING = "nameduel.pending.v3";
 const LS_SERVER = "nameduel.server.v3";
 const LS_CURRENT = "nameduel.current.v3";
-const key = s => s.toLocaleLowerCase("tr");
+const LS_LIST = "nameduel.list";
+const listFromHash = () => { const h = location.hash.replace("#", ""); return h === "greek" ? "gr" : h === "turkish" ? "tr" : null; };
+const initialList = listFromHash() || (lsGetEarly("nameduel.list") === "gr" ? "gr" : "tr");
+function lsGetEarly(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }
+const key = s => s.toLocaleLowerCase(LISTS[S.list].lang);
+const loc = () => LISTS[S.list].lang;
+const curKey = () => LS_CURRENT + "." + S.list;
 const clone = o => JSON.parse(JSON.stringify(o));
 const $ = id => document.getElementById(id);
 const rid = p => p + "-" + Date.now().toString(36) + "-" + Math.random().toString(36).slice(2, 8);
@@ -500,7 +666,8 @@ const S = {
   server: lsJSON(LS_SERVER, { voters: [], votes: [] }),   // last state the sheet returned
   pending: lsJSON(LS_PENDING, []),                         // changes not yet confirmed by the sheet
   voters: {},                                              // view: server state with pending changes applied
-  current: lsGet(LS_CURRENT),
+  list: initialList,
+  current: null,
   inflight: false, retryAt: 0, everLoaded: false,
   syncState: "idle", syncText: "Connecting",
   tab: "duel", focus: "all", rankView: null,
@@ -508,7 +675,7 @@ const S = {
 };
 const cur = () => S.voters[S.current] || null;
 const voterName = id => (S.voters[id] && S.voters[id].name) || "Someone";
-const voterIds = () => Object.keys(S.voters).sort((a, b) => voterName(a).localeCompare(voterName(b), "tr"));
+const voterIds = () => Object.keys(S.voters).sort((a, b) => voterName(a).localeCompare(voterName(b), loc()));
 const possessive = n => n + (/s$/i.test(n) ? "'" : "'s");
 
 /* ---------- state = sheet + pending changes ---------- */
@@ -529,14 +696,15 @@ function applyOp(V, op) {
 }
 function rebuild() {
   const V = {};
-  for (const v of S.server.voters || []) V[v.id] = { name: v.name, vetoes: v.vetoes || [], added: v.added || [], updated: v.updated || 0, votes: [] };
-  for (const r of S.server.votes || []) {
+  const mine = id => typeof id === "string" && (LISTS[S.list].prefix ? id.startsWith(LISTS[S.list].prefix) : !id.startsWith("gr-"));
+  for (const v of (S.server.voters || []).filter(v => mine(v.id))) V[v.id] = { name: v.name, vetoes: v.vetoes || [], added: v.added || [], updated: v.updated || 0, votes: [] };
+  for (const r of (S.server.votes || []).filter(r => mine(r[0]))) {
     const [voter, w, l, t, vid] = r;
     if (!V[voter]) V[voter] = { name: "Someone", vetoes: [], added: [], updated: 0, votes: [] };
     V[voter].votes.push([w, l, t, vid]);
   }
   for (const v of Object.values(V)) v.votes.sort((a, b) => a[2] - b[2]);
-  for (const op of S.pending) applyOp(V, op);
+  for (const op of S.pending) if (op.op === "unvote" || mine(op.voter || op.id)) applyOp(V, op);
   S.voters = V;
   S.onList = new Set(pool().map(p => p.n));
 }
@@ -623,11 +791,11 @@ $("signout").onclick = () => lockOut("");
 /* ---------- names ---------- */
 function pool() {
   const m = new Map();
-  for (const b of BASE) m.set(key(b.n), { n: b.n, m: b.m });
+  for (const b of LISTS[S.list].names) m.set(key(b.n), b);
   for (const id of voterIds()) for (const a of (S.voters[id].added || [])) {
     const k = key(a[0]); if (!m.has(k)) m.set(k, { n: a[0], m: a[1] || "", by: id });
   }
-  return [...m.values()].sort((a, b) => a.n.localeCompare(b.n, "tr"));
+  return [...m.values()].sort((a, b) => a.n.localeCompare(b.n, loc()));
 }
 function activeNames() {
   const out = new Set((cur() && cur().vetoes) || []);
@@ -682,7 +850,7 @@ function nextPair() {
 
 /* ---------- people ---------- */
 function selectVoter(id) {
-  S.current = id; lsSet(LS_CURRENT, id || "");
+  S.current = id; lsSet(curKey(), id || "");
   S.recent = []; S.confirm = null; nextPair();
   if (S.rankView !== "all") S.rankView = id;
   renderAll();
@@ -692,7 +860,7 @@ function addVoter(name) {
   if (!name) { $("newvotername").focus(); return; }
   const existing = voterIds().find(id => key(voterName(id)) === key(name));
   if (existing) { selectVoter(existing); return; }
-  const id = rid("v");
+  const id = LISTS[S.list].prefix + rid("v");
   queue({ op: "voter", id, name, vetoes: [], added: [], updated: Date.now() });
   selectVoter(id);
 }
@@ -736,7 +904,7 @@ function addName(n, m) {
   if (!v) return "Choose who's picking on the Duel tab first, so the name shows who added it.";
   n = n.trim().replace(/\s+/g, " "); m = m.trim();
   if (!n) return "Type a name first.";
-  n = n.charAt(0).toLocaleUpperCase("tr") + n.slice(1);
+  n = n.charAt(0).toLocaleUpperCase(loc()) + n.slice(1);
   if (pool().some(p => key(p.n) === key(n))) return n + " is already on the list.";
   queue(voterOp(S.current, { added: [...(v.added || []), [n, m]] }));
   renderAll();
@@ -767,7 +935,28 @@ function renderVoters() {
   }
   $("newvotername").placeholder = voterIds().length ? "Add a person" : "Type your name to start";
 }
+function sayIt(p) { if (!p || !p.p) return ""; return (p.lat ? p.lat + ", " : "") + "say " + p.p; }
+function renderList() {
+  for (const b of document.querySelectorAll("[data-list]")) b.setAttribute("aria-pressed", b.dataset.list === S.list);
+  $("listnote").textContent = `${LISTS[S.list].names.length} ${LISTS[S.list].label} names. Each list has its own picks and rankings.`;
+  $("pronkey").textContent = LISTS[S.list].key;
+  $("addname").lang = loc();
+}
+function switchList(l) {
+  if (!LISTS[l] || l === S.list) return;
+  S.list = l; lsSet(LS_LIST, l);
+  if (location.hash.replace("#", "") !== LISTS[l].hash) { try { history.replaceState(null, "", "#" + LISTS[l].hash); } catch (e) { location.hash = LISTS[l].hash; } }
+  rebuild();
+  S.current = lsGet(curKey()) || null;
+  if (S.current && !S.voters[S.current]) S.current = null;
+  S.pair = null; S.recent = []; S.rankView = null; S.confirm = null;
+  $("search").value = ""; $("addmsg").textContent = "";
+  nextPair(); renderAll();
+}
+for (const b of document.querySelectorAll("[data-list]")) b.onclick = () => switchList(b.dataset.list);
+window.addEventListener("hashchange", () => { const l = listFromHash(); if (l) switchList(l); });
 function renderDuel() {
+  renderList();
   renderVoters();
   const v = cur();
   const E = computeElo(myVotes());
@@ -778,6 +967,8 @@ function renderDuel() {
     const meanText = !v ? (i ? "Then the duels begin." : "Pick your name above, or add it.") : (p ? (p.m || "Meaning not added") : "Bring some names back in the Names tab.");
     c.querySelector(".nm").textContent = nmText;
     c.querySelector(".mean").textContent = meanText;
+    c.querySelector(".nm").lang = loc();
+    c.querySelector(".pron").textContent = v && p ? sayIt(p) : "";
     const s = p ? (E.get(p.n) || blank) : blank;
     c.querySelector(".rec").textContent = !p ? "" : (s.w + s.l === 0 ? "First duel" : `Won ${s.w}, lost ${s.l}`);
     c.setAttribute("aria-label", p ? `Pick ${p.n}` : "No name");
@@ -802,7 +993,7 @@ function renderDuel() {
   if (!top.length) { const li = document.createElement("li"); li.style.background = "transparent"; li.style.padding = "0"; li.className = "note"; li.textContent = "Favourites appear here after a few picks."; pod.append(li); }
   for (const t of top) {
     const li = document.createElement("li");
-    const b = document.createElement("b"); b.lang = "tr"; b.textContent = t.n;
+    const b = document.createElement("b"); b.lang = loc(); b.textContent = t.n;
     const sp = document.createElement("span"); sp.textContent = Math.round(t.s.r);
     li.append(b, sp); pod.append(li);
   }
@@ -855,11 +1046,12 @@ function renderRank() {
     if (games < 3) tr.classList.add("thin");
     const td0 = document.createElement("td"); td0.className = "pos"; td0.textContent = i + 1;
     const td1 = document.createElement("td");
-    const nm = document.createElement("div"); nm.className = "rn"; nm.lang = "tr"; nm.textContent = r.p.n;
+    const nm = document.createElement("div"); nm.className = "rn"; nm.lang = loc(); nm.textContent = r.p.n;
     if (games < 3) { const c = document.createElement("span"); c.className = "chip"; c.textContent = "few duels"; nm.append(c); }
     const vn = vetoCount.get(key(r.p.n));
     if (vn) { const c = document.createElement("span"); c.className = "chip warn"; c.textContent = all ? `taken out by ${vn}` : "taken out"; nm.append(c); }
     const mm = document.createElement("div"); mm.className = "rm"; mm.textContent = r.p.m;
+    if (r.p.p) { const sp = document.createElement("div"); sp.className = "rp"; sp.textContent = sayIt(r.p); mm.prepend(sp); }
     td1.append(nm, mm);
     const td2 = document.createElement("td"); td2.className = "num"; td2.textContent = Math.round(r.s.r);
     const td3 = document.createElement("td"); td3.className = "num"; td3.textContent = `${r.s.w}–${r.s.l}`;
@@ -894,9 +1086,10 @@ function renderNames() {
     const li = document.createElement("li");
     const isOut = out.has(key(p.n)); if (isOut) li.className = "out";
     const txt = document.createElement("div"); txt.className = "txt";
-    const nm = document.createElement("div"); nm.className = "rn"; nm.lang = "tr"; nm.textContent = p.n;
+    const nm = document.createElement("div"); nm.className = "rn"; nm.lang = loc(); nm.textContent = p.n;
     if (p.by) { const c = document.createElement("span"); c.className = "chip"; c.textContent = `added by ${voterName(p.by)}`; nm.append(c); }
     const mm = document.createElement("div"); mm.className = "rm"; mm.textContent = p.m || "";
+    if (p.p) { const sp = document.createElement("div"); sp.className = "rp"; sp.textContent = sayIt(p); mm.prepend(sp); }
     txt.append(nm, mm);
     const acts = document.createElement("div"); acts.className = "acts";
     if (v) { const t = document.createElement("button"); t.className = "mini"; t.textContent = isOut ? "Bring back" : "Take out"; t.onclick = () => toggleVeto(p.n); acts.append(t); }
@@ -957,7 +1150,10 @@ document.addEventListener("keydown", e => {
 let renderTimer = null;
 function renderSoon() { clearTimeout(renderTimer); renderTimer = setTimeout(() => { renderDuel(); if (S.tab === "rank") renderRank(); if (S.tab === "names") renderNames(); }, 80); }
 function start() {
-  rebuild(); nextPair(); renderAll();
+  rebuild();
+  S.current = lsGet(curKey()) || null;
+  if (location.hash.replace("#", "") !== LISTS[S.list].hash) { try { history.replaceState(null, "", "#" + LISTS[S.list].hash); } catch (e) {} }
+  nextPair(); renderAll();
   if (API_URL.startsWith("PASTE")) { hideGate(); setSync("warn", "Not connected to a sheet yet"); return; }
   startPolling();
   if (!S.password) { lockOut(""); return; }
